@@ -11,10 +11,29 @@
 .navbar-celeste {
     background-color: #00aaff; /* Puedes ajustar este valor al tono de celeste que prefieras */
   }
+
+  /* Estilo para la barra de navegación */
+        .navbar {
+            background-color: lightblue; /* Color de fondo celeste */
+            padding: 10px; /* Espacio interno para el contenido */
+        }
+
+        /* Estilo para los enlaces de navegación */
+        .navbar a {
+            text-decoration: none; /* Elimina la subraya de los enlaces */
+            color: blueviolet; /* Color del texto en los enlaces */
+            margin: 0 20px; /* Espaciado entre los enlaces */
+        }
+
+        /* Cambia el color del texto en los enlaces cuando se pasa el mouse */
+        .navbar a:hover {
+            color: blue;
+        }
 </style>
 
 <body>
-   
+
+  
         
     <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-celeste mx-auto">
         <div class="container-fluid">
@@ -140,8 +159,8 @@
     function buscarAlumnos(val){
         mostrarDatosAlumnos(val);
     }
-
-    function mostrarDatosAlumnos(valor){
+    
+     function mostrarDatosAlumnos(valor){
         valor = valor || '';
         fetch(`/buscar_alumnos`,{
             method: 'POST',
@@ -164,7 +183,30 @@
             $tblAlumnos.innerHTML = $filas;
         });
     }
+    function modificarAlumno(alumno){
+        frmAlumnos.dataset.accion = "modificar";
+        frmAlumnos.dataset.idalumno = alumno.idAlumno;
+        txtCodigoAlumnos.value = alumno.codigo;
+        txtNombreAlumnos.value = alumno.nombre;
+        txtDireccionAlumnos.value = alumno.direccion;
+        txtTelefonoAlumnos.value = alumno.telefono;
+    }
+    function eliminarAlumno(alumno){
+        if( confirm(`Esta seguro de eliminar a: ${alumno.nombre}`) ){
+            fetch("/alumnos", {
+                method: "POST",
+                body: JSON.stringify({accion: "eliminar", idAlumno: alumno.idAlumno})
+            }).then(resp=>resp.json())
+            .then(respuesta=>{
+                if( respuesta.msg=="ok" ){
+                    limpiarDatosAlumnos();
+                    mostrarDatosAlumnos();
+                }
+            });
+        }
+    }
 
+       
 
     </script>
 </body>
