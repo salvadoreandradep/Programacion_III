@@ -39,18 +39,14 @@
                 <div class="col text-center">
                     <input type="reset" value="Nuevo" class="btn btn-danger">
                     <input type="submit" value="Guardar" class="btn btn-success">
-                    <button id="btnBuscarAlumno" class="btn btn-primary">Buscar Alumnos</button>
+                   
                 </div>
             </div>
         </div>
     </div>
 </form>
 <script>
-    btnBuscarAlumno.addEventListener('click', event=>{
-        event.preventDefault();
-        abrirVentana('busqueda_alumnos');
-        $element.show();
-    });
+    
     frmAlumnos.addEventListener("submit",event=>{
         event.preventDefault();
         let datos = {
