@@ -6,8 +6,8 @@ class crud:
         print("Inicializando la conexion con la base de datos")
         self.conexion = mysql.connector.connect(
             host="localhost", 
-            user="root", 
-            password="", 
+            user="AndradePeña", 
+            password="Huaweiz5", 
             database="db_academico")
         if self.conexion.is_connected():
             print("Conexion exitosa")
