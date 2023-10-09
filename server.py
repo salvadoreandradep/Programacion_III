@@ -1,5 +1,4 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-from flask import Flask, render_template
 from urllib import parse
 import crud_alumnos
 import json
@@ -8,8 +7,6 @@ crud_alumnos = crud_alumnos.crud_alumnos()
 port = 3000
 
 class miServer(SimpleHTTPRequestHandler):
-
-    
     def do_GET(self):
         if self.path=="/":
             self.path = "index.html"

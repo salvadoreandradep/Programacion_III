@@ -1,8 +1,10 @@
 <form method="post" id="frmAlumnos" data-idalumno="-1" data-accion="nuevo">
-    <div class="card text-bg-dark mb-3" style="width: 600px;">
+
+
+    <div class="card  mb-3" style="width: 600px; background-color: #007bff; color: white;">
         <div class="card-header border-success">
             <div data-bs-theme="dark" class="d-flex">
-                <div>Registro de Alumnos</div>
+                <div>AGREGAR PRODUCTOS</div>
                 <div class="ms-auto">
                     <button type="button" class="btn-close close" data-form="alumnos"></button>
                 </div>
@@ -10,43 +12,47 @@
         </div>
         <div class="card-body">
             <div class="row p-1">
-                <div class="col-3">CODIGO:</div>
-                <div class="col-3">
+                <div class="col-9">CODIGO:</div>
+                <div class="col-4">
                     <input required type="text" name="txtCodigoAlumnos" id="txtCodigoAlumnos" class="form-control">
                 </div>
             </div>
             <div class="row p-1">
-                <div class="col-3">NOMBRE:</div>
-                <div class="col-6">
+                <div class="col-9">NOMBRE DE PRODUCTO:</div>
+                <div class="col-9">
                     <input required type="text" name="txtNombreAlumnos" id="txtNombreAlumnos" class="form-control">
                 </div>
             </div>
             <div class="row p-1">
-                <div class="col-3">SECCION:</div>
+                <div class="col-9">AREA:</div>
                 <div class="col-9">
                     <input required type="text" name="txtDireccionAlumnos" id="txtDireccionAlumnos" class="form-control">
                 </div>
             </div>
             <div class="row">
-                <div class="col-3">STOCK:</div>
-                <div class="col-3">
+                <div class="col-9">DISPONIBILIDAD:</div>
+                <div class="col-9">
                     <input required type="text" name="txtTelefonoAlumnos" id="txtTelefonoAlumnos" class="form-control">
                 </div>
             </div>
         </div>
         <div class="card-footer bg-transparent border-success">
             <div class="row">
-                <div class="col text-center">
-                    <input type="reset" value="Nuevo" class="btn btn-danger">
-                    <input type="submit" value="Guardar" class="btn btn-success">
-                   
+                <div class="col ">
+                    <input type="reset" value="Nuevo" class="btn btn-light">
+                    <input type="submit" value="Guardar" class="btn btn-light">
+                    <button id="btnBuscarAlumno" class="btn btn-light">Buscar Alumnos</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 <script>
-    
+    btnBuscarAlumno.addEventListener('click', event=>{
+        event.preventDefault();
+        abrirVentana('busqueda_alumnos');
+        $element.show();
+    });
     frmAlumnos.addEventListener("submit",event=>{
         event.preventDefault();
         let datos = {
