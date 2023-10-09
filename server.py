@@ -16,11 +16,20 @@ class miServer(SimpleHTTPRequestHandler):
             self.path = "alumnos.html"
             return SimpleHTTPRequestHandler.do_GET(self)
         
+        if self.path=="/frmclientes":
+            self.path = "clientes.html"
+            return SimpleHTTPRequestHandler.do_GET(self)
+        
         if self.path=="/frmbusqueda_alumnos":
             self.path = "busqueda_alumnos.html"
             return SimpleHTTPRequestHandler.do_GET(self)
        
         if self.path=="/alumnos":
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(json.dumps(crud_alumnos.consultar_alumnos()).encode('utf-8'))
+
+        if self.path=="/clientes":
             self.send_response(200)
             self.end_headers()
             self.wfile.write(json.dumps(crud_alumnos.consultar_alumnos()).encode('utf-8'))
