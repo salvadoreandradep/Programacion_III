@@ -1,9 +1,12 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from urllib import parse
 import crud_alumnos
+import crud_clientes
 import json
 
 crud_alumnos = crud_alumnos.crud_alumnos()
+crud_clientes = crud_clientes.crud_clientes()
+
 port = 3000
 
 class miServer(SimpleHTTPRequestHandler):
@@ -32,7 +35,7 @@ class miServer(SimpleHTTPRequestHandler):
         if self.path=="/clientes":
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(json.dumps(crud_alumnos.consultar_alumnos()).encode('utf-8'))
+            self.wfile.write(json.dumps(crud_clientes.consultar_clientes()).encode('utf-8'))
 
     def do_POST(self):
         longitud = int(self.headers["Content-Length"])
@@ -40,8 +43,14 @@ class miServer(SimpleHTTPRequestHandler):
         datos = datos.decode()
         datos = parse.unquote(datos)
         datos = json.loads(datos)
+       
         if self.path=="/alumnos":
             resp = {"msg": crud_alumnos.administrar(datos)}
+
+        if self.path=="/clientes":
+            resp = {"msg": crud_clientes.administrarC(datos)}
+
+
         if self.path=="/buscar_alumnos":
             resp = crud_alumnos.consultar_alumnos(datos)
         
