@@ -198,141 +198,73 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        /* Estilos para el formulario */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <li><a href="principal.html">Principal</a></li>
-            <li><a href="#">Ofertas</a></li>
-            <li><a href="#">Catálogo</a></li>
-            <li><a href="#">Carrito de Compra</a></li>
+            
+            <li><a href="principal.html">Inicio</a></li>
+            <li><a >ZZZ</a></li>
+           
         </nav>
     </header>
     
     <div class="container">
+        <h1>Iniciar Sesión</h1>
+        <form action="principal.html" >
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" name="username" required>
 
-       
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
 
-
- 
-
-        
-  
-
-    
-
-<!-- Chatbot simple -->
-    <div id="chatbot" onclick="toggleChatbot();">Chat</div>
-
-    <!-- Contenedor del chatbot (se oculta inicialmente) -->
-    <div id="chatbot-container">
-        <div id="chatbot-header">
-            <span>Chatbot</span>
-            <button onclick="toggleChatbot();">X</button>
-        </div>
-        <div id="chatbot-messages">
-            <!-- Aquí se mostrarían los mensajes del chatbot -->
-        </div>
-        <div id="chatbot-input">
-            <input type="text" placeholder="Escribe un mensaje...">
-            <button onclick="sendMessage();">Enviar</button>
-        </div>
+            <input type="submit" value="Iniciar Sesión">
+        </form>
     </div>
 
 
-
-
-
-<div class="container">
-    <footer>
-
-        <CENTER>
-        <p>&copy; 2023 Mi Compañía - Todos los derechos reservados.</p>
-        <p><a href="">Política de Privacidad</a> | <a href="">Términos y Condiciones</a></p>
-        <p>Contáctanos en info@micompany.com</p>
-
-        <a href="https://www.youtube.com/tucanal" target="_blank">Ir a mi canal de YouTube</a>
+      
     </body>
-    </CENTER>
-    </footer>
-
-</div>
-
-
-
-
-
-
-
- <script>
-
-
-	
-
-        // Función para mostrar/ocultar el chatbot
-        function toggleChatbot() {
-            const chatbotContainer = document.getElementById('chatbot-container');
-            chatbotContainer.style.display = chatbotContainer.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Función para enviar un mensaje al chatbot (simulado)
-        function sendMessage() {
-            const input = document.querySelector('#chatbot-input input');
-            const message = input.value;
-            const messagesContainer = document.getElementById('chatbot-messages');
-            
-            // Crear mensaje del usuario
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user');
-            userMessage.innerText = message;
-            messagesContainer.appendChild(userMessage);
-            
-            // Responder desde el chatbot
-            setTimeout(() => {
-                const botMessage = document.createElement('div');
-                botMessage.classList.add('message', 'bot');
-                botMessage.innerText = getBotResponse(message);
-                messagesContainer.appendChild(botMessage);
-            }, 1000);
-            
-            // Limpiar el campo de entrada
-            input.value = '';
-        }
-
-        // Función para obtener una respuesta del chatbot (simulación)
-        function getBotResponse(message) {
-            message = message.toLowerCase();
-            
-         if (message.includes('hola') || message.includes('buenos dias') || message.includes('buenas tardes')) {
-                return '¡Hola! ¿En qué puedo ayudarte?','Buen dia, ¿Como puedo ayudarte?';
-
-
-            } else if (message.includes('productos')) {
-                return 'Tenemos una amplia gama de productos. ¿Hay algo específico que estés buscando?';
-
-
-
-            } else if (message.includes('ofertas') || message.includes('descuentos')) {
-                return 'Actualmente, tenemos algunas ofertas especiales en nuestros productos. ¿Te gustaría verlas?';
-
-
-            } else {
-                return 'Lo siento, no entiendo tu pregunta. ¿Puedes reformularla?';
-            }
-        }
-
-
-
-
-
-
-    </script>
-
-
-
-    
-    
-</body>
-</html>
-
