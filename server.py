@@ -1,26 +1,37 @@
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-from urllib import parse
+from flask import Flask, render_template, request, redirect, url_for
+import mysql.connector
 
-import json
+app = Flask(__name__, template_folder='templates')
 
+# Configura la conexión a la base de datos MySQL
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="db_freund"
+)
 
-port = 3000
+# Ruta para mostrar el formulario
+@app.route('/')
+def formulario():
+    return render_template('index.html')
 
-class miServer(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path=="/":
-            self.path = "login.html"
-            return SimpleHTTPRequestHandler.do_GET(self)
-        
-        if self.path=="/productos.html":
-            self.path = "productos.html"
-            return SimpleHTTPRequestHandler.do_GET(self)
-       
-        if self.path=="/principal.html":
-            self.path = "principal.html"
-            return SimpleHTTPRequestHandler.do_GET(self)
-        
-       
-print("Ejecuntando server en puerto ", port)
-server = HTTPServer(("localhost", port), miServer)
-server.serve_forever()
+# Ruta para procesar los datos del formulario
+@app.route('/guardar', methods=['POST'])
+def guardar():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
+
+    # Inserta los datos en la base de datos
+    query = "INSERT INTO alumnos (codigo, nombre, direccion, telefono) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
+
+    return redirect(url_for('formulario'))
+
+if __name__ == '__main__':
+    app.run(debug=True, port=3000)
