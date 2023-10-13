@@ -84,7 +84,7 @@
                 <div class="col text-center">
                     <input type="reset" value="Nuevo" class="btn btn-danger">
                     <input type="submit" value="Guardar" class="btn btn-success">
-                    <button id="btnBuscarAlumno" class="btn btn-primary">Buscar Alumnos</button>
+                 
                 </div>
             </div>
         </div>
@@ -106,6 +106,33 @@
                         Empleados
                     </div>
                     
+                    <div class="card-body">
+                        <div class="row p-1">
+                            <div class="col">
+                                <table class="table table-sm table-hover table-hover" id="tblConsultaAlumnos">
+                                    <thead>
+                                        <tr>
+                                            <th>Buscar:</th>
+                                            <th colspan="4">
+                                                <input type="text" name="txtBuscarAlumnos" id="txtBuscarAlumnos" 
+                                                    class="form-control" onkeyup="buscarAlumnos(this.value)">
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>CODIGO</th>
+                                            <th>NOMBRE</th>
+                                            <th>DIRECCION</th>
+                                            <th>TEL</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> </tbody>
+                                </table>
+                            </div>
+                        </div>  
+                    </div>
+
+
                     
 
                 </div>
