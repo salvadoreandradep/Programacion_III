@@ -126,7 +126,17 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody> </tbody>
+                                    <tbody>
+                                        {% for row in data %}
+                                            <tr>
+                                                <td>{{ row[0] }}</td>
+                                                <td>{{ row[1] }}</td>
+                                                <td>{{ row[2] }}</td>
+                                                <td>{{ row[3] }}</td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>  

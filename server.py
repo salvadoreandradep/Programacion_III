@@ -14,6 +14,8 @@ db = mysql.connector.connect(
 )
 
 
+
+
 @app.route('/')
 def formulario():
     return render_template('login.html')
@@ -60,6 +62,26 @@ def login():
         return redirect(url_for('inicio'))
     else:
         return "Nombre de usuario o contraseña incorrectos"
+    
+
+
+cursor = db.cursor()
+
+
+cursor.execute("SELECT codigo, nombre, direccion, telefono FROM alumnos")
+
+
+resultados = cursor.fetchall()
+
+
+for fila in resultados:
+    codigo = fila[0]  # Accede por índice
+    nombre = fila[1]  # Accede por índice
+    direccion = fila[2]  # Accede por índice
+    telefono = fila[3]  # Accede por índice
+    print(f"CÓDIGO: {codigo}, NOMBRE: {nombre}, DIRECCIÓN: {direccion}, TELÉFONO: {telefono}")
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
