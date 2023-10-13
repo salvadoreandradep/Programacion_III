@@ -20,8 +20,16 @@ def formulario():
 
 
 @app.route('/inicio')
-def inicio():
+def clientes():
     return render_template('index.html')
+
+@app.route('/productos.html')
+def productos():
+    return render_template('productos.html')
+
+@app.route('/empleados.html')
+def empleados():
+    return render_template('empleados.html')
 
 
 # Ruta para procesar los datos del formulario
