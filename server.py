@@ -23,8 +23,12 @@ def formulario():
 
 @app.route('/inicio')
 def inicio():
-    return render_template('index.html')
+    return render_template('principal.html')
 
+
+@app.route('/clientes')
+def clientes():
+    return render_template('index.html')
 
 
 
