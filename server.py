@@ -25,13 +25,7 @@ def formulario():
 def inicio():
     return render_template('index.html')
 
-@app.route('/productos.html')
-def productos():
-    return render_template('productos.html')
 
-@app.route('/empleados.html')
-def empleados():
-    return render_template('empleados.html')
 
 
 @app.route('/guardar', methods=['POST'])
@@ -43,12 +37,12 @@ def guardar():
     telefono = request.form['txtTelefonoAlumnos']
 
 
-    query = "INSERT INTO alumnos (codigo, nombre, direccion, telefono) VALUES (%s, %s, %s, %s)"
+    query = "INSERT INTO clientes (nombre, apellido, dui, telefono) VALUES (%s, %s, %s, %s)"
     cursor.execute(query, (codigo, nombre, direccion, telefono))
     db.commit()
     cursor.close()
 
-    return redirect(url_for('formulario'))
+    return redirect(url_for('inicio'))
 
 
 
@@ -68,18 +62,18 @@ def login():
 cursor = db.cursor()
 
 
-cursor.execute("SELECT codigo, nombre, direccion, telefono FROM alumnos")
+#cursor.execute("SELECT codigo, nombre, direccion, telefono FROM alumnos")
 
 
-resultados = cursor.fetchall()
+#resultados = cursor.fetchall()
 
 
-for fila in resultados:
-    codigo = fila[0]  # Accede por índice
-    nombre = fila[1]  # Accede por índice
-    direccion = fila[2]  # Accede por índice
-    telefono = fila[3]  # Accede por índice
-    print(f"CÓDIGO: {codigo}, NOMBRE: {nombre}, DIRECCIÓN: {direccion}, TELÉFONO: {telefono}")
+#for fila in resultados:
+ #   codigo = fila[0]  # Accede por índice
+  #  nombre = fila[1]  # Accede por índice
+   # direccion = fila[2]  # Accede por índice
+    #telefono = fila[3]  # Accede por índice
+    #print(f"CÓDIGO: {codigo}, NOMBRE: {nombre}, DIRECCIÓN: {direccion}, TELÉFONO: {telefono}")
 
 
 
