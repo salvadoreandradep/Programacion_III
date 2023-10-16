@@ -34,55 +34,55 @@
     </div>
 </div>
 <script>
-    mostrarDatosAlumnos();
+   mostrarDatosAlumnos();
 
-    function buscarAlumnos(val){
-        mostrarDatosAlumnos(val);
-    }
-    
-     function mostrarDatosAlumnos(valor){
-        valor = valor || '';
-        fetch(`/buscar_alumnos`,{
-            method: 'POST',
-            body:j=JSON.stringify({buscar: valor})
+function buscarAlumnos(val){
+    mostrarDatosAlumnos(val);
+}
+
+ function mostrarDatosAlumnos(valor){
+    valor = valor || '';
+    fetch(`/buscar_alumnos`,{
+        method: 'POST',
+        body:j=JSON.stringify({buscar: valor})
+    }).then(resp=>resp.json())
+    .then(resp=>{
+        let $tblAlumnos = document.querySelector("#tblConsultaAlumnos > tbody"),
+            $filas = '';
+        resp.forEach(alumno => {
+            $filas += `
+                <tr onClick='modificarAlumno(${ JSON.stringify(alumno) })'>
+                    <td>${alumno.codigo}</td>
+                    <td>${alumno.nombre}</td>
+                    <td>${alumno.direccion}</td>
+                    <td>${alumno.telefono}</td>
+                    <td><button onClick='eliminarAlumno(${ JSON.stringify(alumno) })' class="btn btn-danger">Eliminar</button></td>
+                </tr>
+            `;
+        });
+        $tblAlumnos.innerHTML = $filas;
+    });
+}
+function modificarAlumno(alumno){
+    frmAlumnos.dataset.accion = "modificar";
+    frmAlumnos.dataset.idalumno = alumno.idAlumno;
+    txtCodigoAlumnos.value = alumno.codigo;
+    txtNombreAlumnos.value = alumno.nombre;
+    txtDireccionAlumnos.value = alumno.direccion;
+    txtTelefonoAlumnos.value = alumno.telefono;
+}
+function eliminarAlumno(alumno){
+    if( confirm(`Esta seguro de eliminar a: ${alumno.nombre}`) ){
+        fetch("/alumnos", {
+            method: "POST",
+            body: JSON.stringify({accion: "eliminar", idAlumno: alumno.idAlumno})
         }).then(resp=>resp.json())
-        .then(resp=>{
-            let $tblAlumnos = document.querySelector("#tblConsultaAlumnos > tbody"),
-                $filas = '';
-            resp.forEach(alumno => {
-                $filas += `
-                    <tr onClick='modificarAlumno(${ JSON.stringify(alumno) })'>
-                        <td>${alumno.nombre}</td>
-                        <td>${alumno.apellido}</td>
-                        <td>${alumno.dui}</td>
-                        <td>${alumno.telefono}</td>
-                        <td><button onClick='eliminarAlumno(${ JSON.stringify(alumno) })' class="btn btn-danger">Eliminar</button></td>
-                    </tr>
-                `;
-            });
-            $tblAlumnos.innerHTML = $filas;
+        .then(respuesta=>{
+            if( respuesta.msg=="ok" ){
+                limpiarDatosAlumnos();
+                mostrarDatosAlumnos();
+            }
         });
     }
-    function modificarAlumno(alumno){
-        frmAlumnos.dataset.accion = "modificar";
-        frmAlumnos.dataset.idalumno = alumno.idCliente;
-        txtCodigoAlumnos.value = alumno.nombre;
-        txtNombreAlumnos.value = alumno.apellido;
-        txtDireccionAlumnos.value = alumno.dui;
-        txtTelefonoAlumnos.value = alumno.telefono;
-    }
-    function eliminarAlumno(alumno){
-        if( confirm(`Esta seguro de eliminar a: ${alumno.nombre}`) ){
-            fetch("/alumnos", {
-                method: "POST",
-                body: JSON.stringify({accion: "eliminar", idCliente: alumno.idCliente})
-            }).then(resp=>resp.json())
-            .then(respuesta=>{
-                if( respuesta.msg=="ok" ){
-                    limpiarDatosAlumnos();
-                    mostrarDatosAlumnos();
-                }
-            });
-        }
-    }
+}
 </script>

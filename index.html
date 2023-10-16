@@ -29,6 +29,8 @@
             padding: 10px;
         }
 
+       
+
         nav a {
             color: #fff;
             text-decoration: none;
@@ -93,23 +95,28 @@
         .card-body {
     padding: 20px;
     background-color: #f7f7f7;
+    border-radius: 5px;
 }
 
-/* Estilos para la tabla */
+
 table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
+    
 }
 
 table th, table td {
     padding: 10px;
     text-align: left;
+    
 }
 
 table thead {
     background-color: #343a40;
     color: #fff;
+    
+    
 }
 
 /* Estilos para el cuadro de búsqueda */
@@ -117,32 +124,39 @@ table thead {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
+    
 }
 
 /* Estilos para las filas de datos */
 table tbody tr:hover {
     background-color: #e2e2e2;
+    
+    
 }
 
 /* Estilos para los encabezados de la tabla */
 table th {
     font-weight: bold;
+    
 }
 
 /* Añadir un borde a la tabla */
 table {
     border: 1px solid #ccc;
+    
 }
 
 /* Estilos para el cuadro de búsqueda */
 #txtBuscarAlumnos {
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 50px;
     font-size: 16px;
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
-/* Estilos para el botón Buscar (opcional) */
+
 #btnBuscar {
     background-color: #007bff;
     color: #fff;
@@ -156,6 +170,9 @@ table {
 table tbody tr:hover {
     background-color: #f0f0f0;
 }
+
+
+
     
     </style>
 </head>
@@ -164,24 +181,27 @@ table tbody tr:hover {
         <h1>Freund AI</h1>
     </header>
     <nav>
-        <a href="clientes.html" > Clientes</a>
-        <a href="#productos">Productos</a>
-        <a href="#empleados">Empleados</a>
+        <a href="#" > Clientes</a>
+        <a href="#">Productos</a>
+        <a href="#">Empleados</a>
     </nav>
+    
 
 
    
-    <div class="container">
+    
       
 
         <div class="card-body">
             <div class="row p-1">
                 <div class="col">
-                    <table class="table table-bordered table-hover" id="tblConsultaAlumnos">
-                        <thead class="thead-dark">
+                    <table class="table table-sm table-hover table-dark" id="tblConsultaAlumnos">
+                        <thead>
                             <tr>
-                                <th colspan="5">
-                                    <input type="text" name="txtBuscarAlumnos" id="txtBuscarAlumnos" class="form-control" onkeyup="buscarAlumnos(this.value)" placeholder="Buscar...">
+                                <th>Buscar:</th>
+                                <th colspan="4">
+                                    <input type="text" name="txtBuscarAlumnos" id="txtBuscarAlumnos" 
+                                        class="form-control" onkeyup="buscarAlumnos(this.value)">
                                 </th>
                             </tr>
                             <tr>
@@ -192,12 +212,10 @@ table tbody tr:hover {
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Aquí se insertarán las filas de datos -->
-                        </tbody>
+                        <tbody> </tbody>
                     </table>
                 </div>
-            </div>
+            </div>  
         </div>
         
 
@@ -239,57 +257,57 @@ table tbody tr:hover {
 
 
     <script>
-       mostrarDatosAlumnos();
-
-function buscarAlumnos(val){
-    mostrarDatosAlumnos(val);
-}
-
- function mostrarDatosAlumnos(valor){
-    valor = valor || '';
-    fetch(`/buscar_alumnos`,{
-        method: 'POST',
-        body:j=JSON.stringify({buscar: valor})
-    }).then(resp=>resp.json())
-    .then(resp=>{
-        let $tblAlumnos = document.querySelector("#tblConsultaAlumnos > tbody"),
-            $filas = '';
-        resp.forEach(alumno => {
-            $filas += `
-                <tr onClick='modificarAlumno(${ JSON.stringify(alumno) })'>
-                    <td>${alumno.codigo}</td>
-                    <td>${alumno.nombre}</td>
-                    <td>${alumno.direccion}</td>
-                    <td>${alumno.telefono}</td>
-                    <td><button onClick='eliminarAlumno(${ JSON.stringify(alumno) })' class="btn btn-danger">Eliminar</button></td>
-                </tr>
-            `;
-        });
-        $tblAlumnos.innerHTML = $filas;
-    });
-}
-function modificarAlumno(alumno){
-    frmAlumnos.dataset.accion = "modificar";
-    frmAlumnos.dataset.idalumno = alumno.idAlumno;
-    txtCodigoAlumnos.value = alumno.codigo;
-    txtNombreAlumnos.value = alumno.nombre;
-    txtDireccionAlumnos.value = alumno.direccion;
-    txtTelefonoAlumnos.value = alumno.telefono;
-}
-function eliminarAlumno(alumno){
-    if( confirm(`Esta seguro de eliminar a: ${alumno.nombre}`) ){
-        fetch("/alumnos", {
-            method: "POST",
-            body: JSON.stringify({accion: "eliminar", idAlumno: alumno.idAlumno})
-        }).then(resp=>resp.json())
-        .then(respuesta=>{
-            if( respuesta.msg=="ok" ){
-                limpiarDatosAlumnos();
-                mostrarDatosAlumnos();
+        mostrarDatosAlumnos();
+    
+        function buscarAlumnos(val){
+            mostrarDatosAlumnos(val);
+        }
+        
+         function mostrarDatosAlumnos(valor){
+            valor = valor || '';
+            fetch(`/buscar_alumnos`,{
+                method: 'POST',
+                body:j=JSON.stringify({buscar: valor})
+            }).then(resp=>resp.json())
+            .then(resp=>{
+                let $tblAlumnos = document.querySelector("#tblConsultaAlumnos > tbody"),
+                    $filas = '';
+                resp.forEach(alumno => {
+                    $filas += `
+                        <tr onClick='modificarAlumno(${ JSON.stringify(alumno) })'>
+                            <td>${alumno.nombre}</td>
+                            <td>${alumno.apellido}</td>
+                            <td>${alumno.dui}</td>
+                            <td>${alumno.telefono}</td>
+                            <td><button onClick='eliminarAlumno(${ JSON.stringify(alumno) })' class="btn btn-danger">Eliminar</button></td>
+                        </tr>
+                    `;
+                });
+                $tblAlumnos.innerHTML = $filas;
+            });
+        }
+        function modificarAlumno(alumno){
+            frmAlumnos.dataset.accion = "modificar";
+            frmAlumnos.dataset.idalumno = alumno.idCliente;
+            txtCodigoAlumnos.value = alumno.nombre;
+            txtNombreAlumnos.value = alumno.apellido;
+            txtDireccionAlumnos.value = alumno.dui;
+            txtTelefonoAlumnos.value = alumno.telefono;
+        }
+        function eliminarAlumno(alumno){
+            if( confirm(`Esta seguro de eliminar a: ${alumno.nombre}`) ){
+                fetch("/alumnos", {
+                    method: "POST",
+                    body: JSON.stringify({accion: "eliminar", idCliente: alumno.idCliente})
+                }).then(resp=>resp.json())
+                .then(respuesta=>{
+                    if( respuesta.msg=="ok" ){
+                        limpiarDatosAlumnos();
+                        mostrarDatosAlumnos();
+                    }
+                });
             }
-        });
-    }
-}
-    </script>
+        }
+    </script>   
 </body>
 </html>

@@ -30,6 +30,19 @@ class miServer(SimpleHTTPRequestHandler):
             self.path = "index.html"
             return SimpleHTTPRequestHandler.do_GET(self)
         
+        if self.path=="/clientes.html":
+            self.path = "clientes.html"
+            return SimpleHTTPRequestHandler.do_GET(self)
+        
+        if self.path=="set_empleados.html":
+            self.path = "set_empleados.html"
+            return SimpleHTTPRequestHandler.do_GET(self)
+        
+
+
+
+
+        
         if self.path=="/frmalumnos":
             self.path = "alumnos.html"
             return SimpleHTTPRequestHandler.do_GET(self)
