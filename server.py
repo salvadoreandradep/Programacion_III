@@ -1,13 +1,31 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from urllib import parse
+from flask import Flask, render_template, request, redirect, url_for
+import mysql.connector
 import crud_alumnos
 import json
 
 crud_alumnos = crud_alumnos.crud_alumnos()
 port = 3000
 
+usuarios = {'1': '1'}
+
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="db_freund"
+)
+
+
+
+
+
+
 class miServer(SimpleHTTPRequestHandler):
     def do_GET(self):
+       
+        
         if self.path=="/":
             self.path = "index.html"
             return SimpleHTTPRequestHandler.do_GET(self)
@@ -18,6 +36,10 @@ class miServer(SimpleHTTPRequestHandler):
         
         if self.path=="/frmbusqueda_alumnos":
             self.path = "busqueda_alumnos.html"
+            return SimpleHTTPRequestHandler.do_GET(self)
+        
+        if self.path=="/clientes.html":
+            self.path = "clientes.html"
             return SimpleHTTPRequestHandler.do_GET(self)
        
         if self.path=="/alumnos":
@@ -35,10 +57,17 @@ class miServer(SimpleHTTPRequestHandler):
             resp = {"msg": crud_alumnos.administrar(datos)}
         if self.path=="/buscar_alumnos":
             resp = crud_alumnos.consultar_alumnos(datos)
+       
         
         self.send_response(200)
         self.end_headers()
         self.wfile.write(json.dumps(resp).encode())
+
+
+
+
+
+
         
 print("Ejecuntando server en puerto ", port)
 server = HTTPServer(("localhost", port), miServer)

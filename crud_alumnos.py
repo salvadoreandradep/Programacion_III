@@ -3,33 +3,27 @@ db = crud_academica.crud()
 
 class crud_alumnos:
     def consultar_alumnos(self, buscar):
-        return db.consultar("select * from clientes where nombre like'%"+ buscar["buscar"] 
-            +"%' or apellido like'%"+ buscar["buscar"] +"%'")
+        return db.consultar("select * from clentes where apellido like'%"+ buscar["buscar"] 
+            +"%' or nombre like'%"+ buscar["buscar"] +"%'")
     
     def administrar(self, alumnos):
         if alumnos["accion"] == "nuevo":
             sql = """
-                INSERT INTO clientes (nombre, apellido, dui, telefono)
+                INSERT INTO alumnos (codigo, nombre, direccion, telefono)
                 VALUES (%s, %s, %s, %s)
             """
-            val = (alumnos["nombre"], alumnos["apellido"], alumnos["dui"], alumnos["telefono"])
+            val = (alumnos["codigo"], alumnos["nombre"], alumnos["direccion"], alumnos["telefono"])
         elif alumnos["accion"] == "modificar":
             sql = """
-                UPDATE clientes
-                    SET nombre=%s, apellido=%s, dui=%s, telefono=%s
-                WHERE idCliente=%s
+                UPDATE alumnos
+                    SET codigo=%s, nombre=%s, direccion=%s, telefono=%s
+                WHERE idAlumno=%s
             """
-            val = (alumnos["nombre"], alumnos["apellido"], alumnos["dui"], alumnos["telefono"], alumnos["idCliente"])
+            val = (alumnos["codigo"], alumnos["nombre"], alumnos["direccion"], alumnos["telefono"], alumnos["idAlumno"])
         elif alumnos["accion"] == "eliminar":
-                sql = """
-            DELETE FROM clientes
-            WHERE idCliente=%s
-        """
-        val = (alumnos["idCliente"],)
+            sql = """
+                DELETE FROM alumnos
+                WHERE idAlumno=%s
+            """
+            val = (alumnos["idAlumno"],)
         return db.ejecutar_consultas(sql, val)
-
-
-
-
-
-
