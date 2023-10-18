@@ -18,6 +18,11 @@ def tabla_alumnos():
     alumnos = cursor.fetchall()
     return render_template('clientes.html', alumnos=alumnos)
 
+
+
+
+
+
 @app.route('/eliminar_cliente', methods=['POST'])
 def eliminar_alumno():
     codigo = request.form['codigo']
@@ -42,6 +47,15 @@ def tabla_productos():
     cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
     alumnos = cursor.fetchall()
     return render_template('productos.html', alumnos=alumnos)
+
+
+@app.route('/register')
+def tabla_productosE():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
+    alumnos = cursor.fetchall()
+    return render_template('inicio.html', alumnos=alumnos)
+
 
 
 
