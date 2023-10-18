@@ -50,6 +50,7 @@
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Iniciar Sesión</h1>
         <form method="POST" action="/login">
@@ -61,6 +62,12 @@
 
             <input type="submit" value="Iniciar Sesión">
         </form>
+
+        <center>
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
+        </center>
     </div>
 </body>
 </html>

@@ -27,6 +27,11 @@ def Inicio():
 
 @app.route('/clientes')
 def clientes():
+    return render_template('producto.html')
+
+
+@app.route('/producto')
+def producto():
     return render_template('clientes.html')
 
 
@@ -40,7 +45,10 @@ def login():
     if user:
         return redirect(url_for('Inicio'))
     else:
-        return "Usuario o contraseña incorrectos"
+       error = "Contraseña incorrecta. Inténtalo de nuevo."
+    return render_template('login.html', error=error)
+    
+        
 
 @app.route('/guardar', methods=['POST'])
 def guardar():
