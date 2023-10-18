@@ -19,7 +19,12 @@ def tabla_alumnos():
     return render_template('clientes.html', alumnos=alumnos)
 
 
-
+@app.route('/productos')
+def tabla_productos():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
+    alumnos = cursor.fetchall()
+    return render_template('productos.html', alumnos=alumnos)
 
 
 
@@ -68,6 +73,10 @@ def login():
     
         
 
+
+
+
+
 @app.route('/guardar', methods=['POST'])
 def guardar():
     cursor = db.cursor()
@@ -83,6 +92,7 @@ def guardar():
     cursor.close()
 
     return redirect(url_for('clientes'))
+
 
 
 
