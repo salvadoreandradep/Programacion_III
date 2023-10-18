@@ -28,7 +28,12 @@ def eliminar_alumno():
 
 
 
-
+@app.route('/empleados')
+def tabla_empleados():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, apellido, area, turno FROM empleados")
+    alumnos = cursor.fetchall()
+    return render_template('empleados.html', alumnos=alumnos)
 
 
 @app.route('/productos')
@@ -121,6 +126,28 @@ def guardarP():
     cursor.close()
 
     return redirect(url_for('producto'))
+
+@app.route('/guardarE', methods=['POST'])
+def guardarE():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
+
+
+    query = "INSERT INTO empleados (nombre, apellido, area, turno) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
+
+    return redirect(url_for('empleados'))
+
+
+
+
+
+
 
 
 
