@@ -124,8 +124,13 @@ def guardarP():
 
 
 
-
-
+@app.route('/eliminar_producto', methods=['POST'])
+def eliminar_producto():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `producto` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('productos')
 
 
 
