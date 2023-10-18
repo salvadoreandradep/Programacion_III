@@ -11,12 +11,12 @@ db = mysql.connector.connect(
   database="db_freund"
 )
 
-@app.route('/')
+@app.route('/clientes')
 def tabla_alumnos():
     cursor = db.cursor()
     cursor.execute("SELECT nombre, apellido, dui , telefono FROM clientes")
     alumnos = cursor.fetchall()
-    return render_template('principal.html', alumnos=alumnos)
+    return render_template('clientes.html', alumnos=alumnos)
 
 
 
