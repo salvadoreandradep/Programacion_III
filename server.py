@@ -42,6 +42,23 @@ def login():
     else:
         return "Usuario o contraseña incorrectos"
 
+@app.route('/guardar', methods=['POST'])
+def guardar():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
+
+
+    query = "INSERT INTO clientes (nombre, apellido, dui, telefono) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
+
+    return redirect(url_for('clientes'))
+
+
 
 
 
