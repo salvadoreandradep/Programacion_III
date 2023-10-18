@@ -160,7 +160,13 @@ def eliminar_producto():
     return redirect('productos')
 
 
-
+@app.route('/eliminar_empleado', methods=['POST'])
+def eliminar_pempleado():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `empleados` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('empleados')
 
 
 
