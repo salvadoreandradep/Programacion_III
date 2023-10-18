@@ -11,6 +11,20 @@ db = mysql.connector.connect(
   database="db_freund"
 )
 
+@app.route('/')
+def tabla_alumnos():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, apellido, dui , telefono FROM clientes")
+    alumnos = cursor.fetchall()
+    return render_template('principal.html', alumnos=alumnos)
+
+
+
+
+
+
+
+
 
 @app.route('/')
 def formulario():
@@ -27,12 +41,16 @@ def Inicio():
 
 @app.route('/clientes')
 def clientes():
-    return render_template('producto.html')
-
-
-@app.route('/producto')
-def producto():
     return render_template('clientes.html')
+
+
+@app.route('/productos')
+def producto():
+    return render_template('productos.html')
+
+@app.route('/empleados')
+def empleados():
+    return render_template('empleados.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -65,6 +83,13 @@ def guardar():
     cursor.close()
 
     return redirect(url_for('clientes'))
+
+
+
+
+
+
+
 
 
 

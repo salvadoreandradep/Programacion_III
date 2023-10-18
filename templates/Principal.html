@@ -181,7 +181,7 @@ table tbody tr:hover {
         <h1>Freund AI</h1>
     </header>
     <nav>
-        <a href="login">Iniciar Sesion</a>
+        <a href="tabla_alumnos">Iniciar Sesion</a>
     </nav>
     
 
@@ -233,10 +233,20 @@ table tbody tr:hover {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody> </tbody>
+                    <tbody>
+                        {% for alumno in alumnos %}
+                        <tr>
+                            <td>{{ alumno[0] }}</td>
+                            <td>{{ alumno[1] }}</td>
+                            <td>{{ alumno[2] }}</td>
+                            <td>{{ alumno[3] }}</td>
+                            <td></td>  <!-- Aquí puedes agregar acciones adicionales si es necesario -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
-        </div>  
+        </div>
     </div>
     
 

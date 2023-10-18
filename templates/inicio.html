@@ -153,6 +153,10 @@ table tbody tr:hover {
     </style>
 </head>
 <body>
+
+    <header>
+        <h1> Freund UI </h1>
+    </header>
    
     <nav>
         <a href="clientes">Clientes</a>
@@ -181,10 +185,20 @@ table tbody tr:hover {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody> </tbody>
+                    <tbody>
+                        {% for alumno in alumnos %}
+                        <tr>
+                            <td>{{ alumno['codigo'] }}</td>
+                            <td>{{ alumno['nombre'] }}</td>
+                            <td>{{ alumno['direccion'] }}</td>
+                            <td>{{ alumno['telefono'] }}</td>
+                            <td></td>  <!-- Aquí puedes agregar acciones adicionales si es necesario -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
-        </div>  
+        </div>
     </div>
 
     
