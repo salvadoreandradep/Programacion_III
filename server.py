@@ -31,9 +31,6 @@ def eliminar_alumno():
 
 
 
-
-
-
 @app.route('/productos')
 def tabla_productos():
     cursor = db.cursor()
