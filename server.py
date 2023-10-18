@@ -4,8 +4,6 @@ from mysql.connector import Error
 
 app = Flask(__name__, template_folder='templates')
 
-
-# Configura la conexión a la base de datos
 db = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -13,8 +11,41 @@ db = mysql.connector.connect(
   database="db_freund"
 )
 
+@app.route('/clientes')
+def tabla_alumnos():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, apellido, dui , telefono FROM clientes")
+    alumnos = cursor.fetchall()
+    return render_template('clientes.html', alumnos=alumnos)
 
-# Para renderizar los html
+@app.route('/eliminar_cliente', methods=['POST'])
+def eliminar_alumno():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `clientes` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('/clientes')
+
+
+
+
+
+
+
+
+
+@app.route('/productos')
+def tabla_productos():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
+    alumnos = cursor.fetchall()
+    return render_template('productos.html', alumnos=alumnos)
+
+
+
+
+
+
 @app.route('/')
 def formulario():
     return render_template('principal.html')
@@ -42,63 +73,6 @@ def empleados():
     return render_template('empleados.html')
 
 
-
-
-
-
-# CRUD CLIENTES
-@app.route('/guardar', methods=['POST'])
-def guardar():
-    cursor = db.cursor()
-    codigo = request.form['txtCodigoAlumnos']
-    nombre = request.form['txtNombreAlumnos']
-    direccion = request.form['txtDireccionAlumnos']
-    telefono = request.form['txtTelefonoAlumnos']
-
-
-    query = "INSERT INTO clientes (nombre, apellido, dui, telefono) VALUES (%s, %s, %s, %s)"
-    cursor.execute(query, (codigo, nombre, direccion, telefono))
-    db.commit()
-    cursor.close()
-
-    return redirect(url_for('clientes'))
-
-@app.route('/clientes')
-def tabla_alumnos():
-    cursor = db.cursor()
-    cursor.execute("SELECT nombre, apellido, dui , telefono FROM clientes")
-    alumnos = cursor.fetchall()
-    return render_template('clientes.html', alumnos=alumnos)
-
-
-@app.route('/eliminar_cliente', methods=['POST'])
-def eliminar_alumno():
-    codigo = request.form['codigo']
-    cursor = db.cursor()
-    cursor.execute("DELETE FROM `clientes` WHERE nombre =  %s", (codigo,))
-    db.commit()
-    return redirect('/clientes')
-
-
-
-# CRUD PRODUCTO
-@app.route('/productos')
-def tabla_productos():
-    cursor = db.cursor()
-    cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
-    alumnos = cursor.fetchall()
-    return render_template('productos.html', alumnos=alumnos)
-
-
-
-
-
-# CRUD EMPLEADOS
-
-
-
-
-# LOGIN
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
@@ -118,6 +92,21 @@ def login():
 
 
 
+@app.route('/guardar', methods=['POST'])
+def guardar():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
+
+
+    query = "INSERT INTO clientes (nombre, apellido, dui, telefono) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
+
+    return redirect(url_for('clientes'))
 
 
 
