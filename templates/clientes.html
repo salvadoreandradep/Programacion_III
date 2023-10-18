@@ -131,9 +131,9 @@
                             </th>
                         </tr>
                         <tr>
-                            <th>CODIGO</th>
                             <th>NOMBRE</th>
-                            <th>DIRECCION</th>
+                            <th>APELLIDO</th>
+                            <th>DUI</th>
                             <th>TEL</th>
                             <th></th>
                         </tr>
@@ -145,7 +145,14 @@
                             <td>{{ alumno[1] }}</td>
                             <td>{{ alumno[2] }}</td>
                             <td>{{ alumno[3] }}</td>
-                            <td></td>  <!-- Aquí puedes agregar acciones adicionales si es necesario -->
+                            <td>
+
+                                <form method="POST" action="/eliminar_cliente">
+                                    <input type="hidden" name="codigo" value="{{ alumno[0] }}">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+
+                            </td>  
                         </tr>
                         {% endfor %}
                     </tbody>

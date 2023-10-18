@@ -18,6 +18,21 @@ def tabla_alumnos():
     alumnos = cursor.fetchall()
     return render_template('clientes.html', alumnos=alumnos)
 
+@app.route('/eliminar_cliente', methods=['POST'])
+def eliminar_alumno():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `clientes` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('/clientes')
+
+
+
+
+
+
+
+
 
 @app.route('/productos')
 def tabla_productos():
