@@ -25,6 +25,10 @@ def loginP():
 def Inicio():
     return render_template('inicio.html')
 
+@app.route('/clientes')
+def clientes():
+    return render_template('clientes.html')
+
 
 @app.route('/login', methods=['POST'])
 def login():
