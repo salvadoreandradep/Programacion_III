@@ -22,3 +22,6 @@ def materia(request):
 
 def buscarM(request):
     return render(request, 'busqueda_materia.html')
+
+def docente(request):
+    return render(request, 'docente.html')
