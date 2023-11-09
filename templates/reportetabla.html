@@ -45,6 +45,31 @@
         p {
             font-size: 16px;
         }
+
+        table {
+            
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+           
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    
+
+
+        th, td {
+            padding: 10px;
+            border-radius: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #007BFF;
+            
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -73,5 +98,32 @@
         <h1>Bienvenido al Sistema UI Freund.</h1>
     </center>
     </div>
+
+
+    <table >
+        <tr>
+            <th>ID</th>
+            <th>Hora</th>
+            <th>Día</th>
+            <th>Problema</th>
+            <th>Nombre del Empleado</th>
+            <th>Accion</th>
+        </tr>
+        {% for report in reports %}
+            <tr>
+                <td>{{ report[0] }}</td>
+                <td>{{ report[1] }}</td>
+                <td>{{ report[2] }}</td>
+                <td>{{ report[3] }}</td>
+                <td>{{ report[4] }}</td>
+                <td>
+                    <form method="POST" action="/eliminar_reporte">
+                        <input type="hidden" name="codigo" value="{{ report[0] }}">
+                        <button type="submit" class="btn btn-danger">Problema Solucionado</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

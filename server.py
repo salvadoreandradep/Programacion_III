@@ -86,12 +86,21 @@ def eliminar_alumno():
 
 
 
-@app.route("/reportes")
+@app.route("/reportetabla")
 def view_reports():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM `problemas`")
     reports = cursor.fetchall()
-    return render_template("reportes.html", reports=reports)
+    return render_template("reportetabla.html", reports=reports)
+
+
+@app.route('/eliminar_reporte', methods=['POST'])
+def eliminar_reporte():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `problemas` WHERE id =  %s", (codigo,))
+    db.commit()
+    return redirect('/reportetabla')
 
 
 
