@@ -12,6 +12,8 @@ db = mysql.connector.connect(
   database="db_freund"
 )
 
+
+## Administracion de productos
 @app.route('/producto')
 def tabla_productos():
     cursor = db.cursor()
@@ -43,6 +45,42 @@ def eliminar_producto():
     cursor.execute("DELETE FROM `producto` WHERE nombre =  %s", (codigo,))
     db.commit()
     return redirect('producto')
+
+##Administracion de clientes
+
+@app.route('/guardarC', methods=['POST'])
+def guardar():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
+
+
+    query = "INSERT INTO clientes (nombre, apellido, dui, telefono) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
+
+    return redirect(url_for('clientes'))
+
+
+@app.route('/cliente')
+def tabla_alumnos():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, apellido, dui , telefono FROM clientes")
+    alumnos = cursor.fetchall()
+    return render_template('clientes.html', alumnos=alumnos)
+
+
+@app.route('/eliminar_cliente', methods=['POST'])
+def eliminar_alumno():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `clientes` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('/cliente')
+
 
 
 
