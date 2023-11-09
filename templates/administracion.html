@@ -45,6 +45,39 @@
         p {
             font-size: 16px;
         }
+
+      
+        .confirmation-dialog {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .confirmation-dialog h2 {
+            color: #333;
+        }
+
+        .confirmation-dialog .buttons {
+            margin-top: 10px;
+        }
+        
+        .confirmation-dialog .btn {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        
+        .confirmation-dialog .btn.cancel {
+            background-color: #ccc;
+        }
+    
     </style>
 </head>
 <body>
@@ -56,7 +89,7 @@
 
     <nav>
 
-       
+        
         <a href="producto">Productos</a>
         <a href="cliente">Clientes</a>
         <a href="empleado">Empleados</a>
@@ -65,13 +98,36 @@
         <a href="bitacora">Bitacora</a>
         <a href="reportetabla">Reportes </a>
 
-        
+        <a href="#" onclick="confirmarCerrarSesion();">Salir</a>
+  
+
     </nav>
+
+    <div class="confirmation-dialog" style="display: none;">
+        <h2>Confirmación de Cierre de Sesión</h2>
+        <p>¿Estás seguro de que deseas cerrar la sesión?</p>
+        <div class="buttons">
+            <button class="btn" onclick="window.location.href = 'inicio';">Aceptar</button>
+            <button class="btn cancel" onclick="document.querySelector('.confirmation-dialog').style.display = 'none';">Cancelar</button>
+        </div>
+    </div>
 
     <div class="container">
         <center>
         <h1>Bienvenido al Sistema UI Freund.</h1>
     </center>
     </div>
+
+    <script>
+       
+
+       function confirmarCerrarSesion() {
+            var confirmacion = confirm("¿Estás seguro de que deseas cerrar la sesión?");
+            if (confirmacion) {
+                // Redirige a la página de inicio de sesión o a donde quieras que vaya el usuario después de cerrar la sesión.
+                window.location.href = "inicio";
+            }
+        }
+    </script>
 </body>
 </html>
