@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 from mysql.connector import Error
-import cv2
+
 
 app = Flask(__name__, template_folder='templates')
 
@@ -12,54 +12,37 @@ db = mysql.connector.connect(
   database="db_freund"
 )
 
-cap = cv2.VideoCapture(0)
-
-# Inicializa el detector de movimiento
-motion_detector = cv2.createBackgroundSubtractorMOG2()
-
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
-
-    # Aplica el detector de movimiento para obtener la máscara de movimiento
-    mask = motion_detector.apply(frame)
-
-    # Procesa la máscara para eliminar el ruido y resaltar las regiones de movimiento
-    mask = cv2.erode(mask, None, iterations=2)
-    mask = cv2.dilate(mask, None, iterations=2)
-
-    # Encuentra los contornos de las regiones de movimiento
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    for contour in contours:
-        if cv2.contourArea(contour) > 2000:  # Ajusta el valor para el umbral de detección
-            # Dibuja un rectángulo alrededor de la región de movimiento
-            (x, y, w, h) = cv2.boundingRect(contour)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-    # Muestra el video con la detección de movimiento
-    cv2.imshow('Detección de Movimiento', frame)
-
-    if cv2.waitKey(1) & 0xFF == 27:  # Presiona Esc para salir
-        break
-
-# Libera la captura de video y cierra todas las ventanas
-cap.release()
-cv2.destroyAllWindows()
+@app.route('/producto')
+def tabla_productos():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
+    alumnos = cursor.fetchall()
+    return render_template('productos.html', alumnos=alumnos)
 
 
+@app.route('/guardarP', methods=['POST'])
+def guardarP():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
 
 
+    query = "INSERT INTO producto (nombre, marca, area, disponibilidad) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
 
+    return redirect(url_for('producto'))
 
-
-
-
-
-
-
-
+@app.route('/eliminar_producto', methods=['POST'])
+def eliminar_producto():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `producto` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('producto')
 
 
 
@@ -104,6 +87,18 @@ def login():
 
 
 
+@app.route('/Rlogin', methods=['POST'])
+def Relogin():
+    username = request.form['username']
+    password = request.form['password']
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM usuarios WHERE nombre_usuario = %s AND contrasena = %s", (username, password))
+    user = cursor.fetchone()
+    if user:
+        return redirect(url_for('admin'))
+    else:
+       error = "Contraseña incorrecta. Inténtalo de nuevo."
+    return render_template('login1.html', error=error)
 
 
 
@@ -133,15 +128,41 @@ def reporte():
 def seguridad():
     return render_template('seguridad.html')
 
+@app.route('/login1')
+def login1():
+    return render_template('login1.html')
 
 
+@app.route('/admin')
+def admin():
+    return render_template('administracion.html')
+
+@app.route('/producto')
+def producto():
+    return render_template('productos.html')
+
+@app.route('/cliente')
+def cliente():
+    return render_template('clientes.html')
 
 
+@app.route('/empleado')
+def empleado():
+    return render_template('empleados.html')
 
 
+@app.route('/proveedore')
+def proveedore():
+    return render_template('proveedores.html')
 
 
+@app.route('/bitacora')
+def bitacora():
+    return render_template('bitacora.html')
 
+@app.route('/reportetabla')
+def reportete():
+    return render_template('reportetabla.html')
 
 
 if __name__ == '__main__':
