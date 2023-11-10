@@ -111,6 +111,13 @@ def tabla_empleados():
 
 
 
+@app.route('/eliminar_empleado', methods=['POST'])
+def eliminar_pempleado():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `empleados` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('empleado')
 
 
 
@@ -179,13 +186,7 @@ def Relogin():
        error = "Contraseña incorrecta. Inténtalo de nuevo."
     return render_template('login1.html', error=error)
 
-@app.route('/eliminar_empleado', methods=['POST'])
-def eliminar_pempleado():
-    codigo = request.form['codigo']
-    cursor = db.cursor()
-    cursor.execute("DELETE FROM `empleados` WHERE nombre =  %s", (codigo,))
-    db.commit()
-    return redirect('empleado')
+
 
 
 
