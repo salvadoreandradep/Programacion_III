@@ -13,7 +13,7 @@ db = mysql.connector.connect(
 )
 
 
-## Administracion de productos
+## Administracion de productos................................................................
 @app.route('/producto')
 def tabla_productos():
     cursor = db.cursor()
@@ -46,7 +46,7 @@ def eliminar_producto():
     db.commit()
     return redirect('producto')
 
-##Administracion de clientes
+##Administracion de clientes.......................................................................
 
 @app.route('/guardarC', methods=['POST'])
 def guardar():
@@ -80,6 +80,38 @@ def eliminar_alumno():
     cursor.execute("DELETE FROM `clientes` WHERE nombre =  %s", (codigo,))
     db.commit()
     return redirect('/cliente')
+
+
+
+## Administracion de Empleados................................................................
+
+@app.route('/guardarE', methods=['POST'])
+def guardarE():
+    cursor = db.cursor()
+    codigo = request.form['txtCodigoAlumnos']
+    nombre = request.form['txtNombreAlumnos']
+    direccion = request.form['txtDireccionAlumnos']
+    telefono = request.form['txtTelefonoAlumnos']
+
+
+    query = "INSERT INTO empleados (nombre, apellido, area, turno) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    db.commit()
+    cursor.close()
+
+    return redirect(url_for('empleado'))
+
+
+@app.route('/empleado')
+def tabla_empleados():
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre, apellido, area, turno FROM empleados")
+    alumnos = cursor.fetchall()
+    return render_template('empleados.html', alumnos=alumnos)
+
+
+
+
 
 
 
@@ -147,7 +179,13 @@ def Relogin():
        error = "Contraseña incorrecta. Inténtalo de nuevo."
     return render_template('login1.html', error=error)
 
-
+@app.route('/eliminar_empleado', methods=['POST'])
+def eliminar_pempleado():
+    codigo = request.form['codigo']
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM `empleados` WHERE nombre =  %s", (codigo,))
+    db.commit()
+    return redirect('empleado')
 
 
 
