@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
+from .models import alumnos
+from django.views.decorators.csrf import csrf_exempt
 
 def saludo(request):
     return HttpResponse("Hola desde django")
@@ -25,3 +28,8 @@ def buscarM(request):
 
 def docente(request):
     return render(request, 'docente.html')
+
+@csrf_exempt
+def buscar_alumnos(request):
+    datos = alumnos.objects.values('codigo','nombre','telefono')
+    return JsonResponse(list(datos), safe=False)
