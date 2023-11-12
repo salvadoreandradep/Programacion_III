@@ -265,7 +265,6 @@ def guardar_edicion():
 
 ## Administracion de entradas...............................................................
 
-
 @app.route("/entradas")
 def index():
     # Consulta a la base de datos para obtener las opciones de Producto y Proveedor
@@ -312,6 +311,10 @@ def eliminar_entrada():
     db.commit()
 
     return redirect(url_for('entradas'))
+
+
+
+
 
 ## Administracion de salidas................................................................
 
@@ -373,12 +376,45 @@ def eliminar_salida():
   
 
 
+## Ventas................................
 
 
+@app.route('/ventas', methods=['GET', 'POST'])
+def ventas():
+    if request.method == 'POST':
+        id_producto = request.form['id_producto']
+        id_cliente = request.form['id_cliente']
+        cantidad = request.form['cantidad']
+        total = request.form['total']
+
+        # Insertar la venta en la base de datos
+        cursor.execute(
+            "INSERT INTO Ventas (idProducto, idCliente, cantidad, total, fechaVenta) VALUES (%s, %s, %s, %s, CURDATE())",
+            (id_producto, id_cliente, cantidad, total)
+        )
+
+        # Commit para guardar los cambios
+        db.commit()
+
+    # Obtener productos y clientes para el formulario
+    cursor.execute("SELECT idProducto, nombre FROM Productos")
+    productos = cursor.fetchall()
+
+    cursor.execute("SELECT idCliente, nombre FROM Clientes")
+    clientes = cursor.fetchall()
+
+    cursor.execute("SELECT v.idVenta, p.nombre as nombre_producto, c.nombre as nombre_cliente, v.cantidad, v.total, v.fechaVenta FROM Ventas v JOIN Productos p ON v.idProducto = p.idProducto JOIN Clientes c ON v.idCliente = c.idCliente")
+    ventas = cursor.fetchall()
 
 
+    return render_template('ventas.html', productos=productos, clientes=clientes, ventas=ventas)
 
 
+@app.route('/eliminar_venta/<int:id_venta>', methods=['POST'])
+def eliminar_venta(id_venta):
+    cursor.execute("DELETE FROM Ventas WHERE idVenta = %s", (id_venta,))
+    db.commit()
+    return redirect(url_for('ventas'))
 
 
 
@@ -474,6 +510,10 @@ def entradas():
 @app.route('/salidas')
 def salidas():
     return render_template('salidas.html')
+
+@app.route('/ventas')
+def venta():
+    return render_template('ventas.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
