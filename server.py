@@ -263,23 +263,6 @@ def guardar_edicion():
     return redirect(url_for('empleados'))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Administracion de entradas...............................................................
 
 ## Administracion de salidas................................................................
