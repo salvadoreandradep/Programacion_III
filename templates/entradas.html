@@ -233,6 +233,7 @@
             <th>ID Proveedor</th>
             <th>Cantidad</th>
             <th>Fecha de Entrada</th>
+            <th>Acciones</th>
         </tr>
         {% for entrada in entradas %}
             <tr>
@@ -241,6 +242,12 @@
                 <td>{{ entrada[2] }}</td>
                 <td>{{ entrada[3] }}</td>
                 <td>{{ entrada[4] }}</td>
+                <td>
+                    <form action="{{ url_for('eliminar_entrada') }}" method="post" style="display: inline;">
+                        <input type="hidden" name="id_entrada" value="{{ entrada[0] }}">
+                        <button type="submit" class="eliminar-button">Eliminar</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </table>

@@ -302,6 +302,17 @@ def guardar_entrada():
 
 
 
+@app.route("/eliminar_entrada", methods=["POST"])
+def eliminar_entrada():
+    # Obtener el ID de la entrada a eliminar
+    id_entrada = request.form.get("id_entrada")
+
+    # Eliminar la entrada de la base de datos
+    cursor.execute("DELETE FROM Entradas WHERE idEntrada = %s", (id_entrada,))
+    db.commit()
+
+    return redirect(url_for('entradas'))
+
 ## Administracion de salidas................................................................
 
 
