@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Empleados</title>
+    <title>Formulario de Clientes</title>
     <style>
            body {
             font-family: Arial, sans-serif;
@@ -148,7 +148,12 @@
             box-sizing: border-box;
         }
 
-
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
 
         
 
@@ -160,11 +165,12 @@
 
     <header>
         <h1>UI Freund System - v1.1</h1>
-        <h1> Administracion de Empleados </h1>
+        <h1> Administracion de Clientes </h1>
        
     </header>
 
     <nav>
+
         <a href="admin">Inicio</a>
         <a href="producto">Productos</a>
         <a href="proveedor">Proveedores</a>
@@ -174,85 +180,87 @@
         <a href="salidas">Salidas</a>
         <a href="ventas">Ventas</a>
         <a href="reporte">Reportes</a>
+       
 
         
     </nav>
 
-    <div class="container">
-
-        <h1>Formulario de Empleados</h1>
-    <form action="/guardar_empleado" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" required><br>
-
-        <label for="cargo">Cargo:</label>
-        <input type="text" name="cargo" required><br>
-
-        <label for="salario">Salario:</label>
-        <input type="number" name="salario" step="0.01" required><br>
-
-        <label for="fecha_contratacion">Fecha de Contratación:</label>
-        <input type="date" name="fecha_contratacion" required><br>
-
-        <input type="submit" value="Guardar">
+<div class="container">
+    <form action="/guardar_reporte" method="post">
+        <label for="id_empleado">Selecciona un empleado:</label>
+        <select name="id_empleado" id="id_empleado" >
+            {% for empleado in empleados %}
+                <option value="{{ empleado[0] }}"  >{{ empleado[1] }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="descripcion">Descripción del problema:</label>
+        <textarea name="descripcion" id="descripcion" cols="30" rows="5" required></textarea>
+        <br>
+        <label for="fecha_reporte">Fecha de reporte:</label>
+        <input type="date" name="fecha_reporte" id="fecha_reporte" required>
+        <br>
+        <label for="estado">Estado:</label>
+        <input type="text" name="estado" id="estado" value="Pendiente" required>
+        <br>
+        <input type="submit" value="Guardar Reporte" required>
     </form>
-    </div>
-
-    <center>
-    
-    <div class="container1">
-        <input type="text" id="busqueda" placeholder="Buscar Empleado..." oninput="filtrarTabla()">
-
-    <!-- Tabla de empleados -->
-    <table id="tabla-empleados" border="1">
+</div>
+<center>
+<div class="container1">
+    <input type="text" id="busqueda" placeholder="Buscar por Estado..." oninput="filtrarTabla()">
+    <table id="tabla-reportes" border="1">
+        <thead>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Cargo</th>
-                <th>Salario</th>
-                <th>Fecha de Contratación</th>
+                <th>ID Reporte</th>
+                <th>Nombre del Empleado</th>
+                <th>Descripción</th>
+                <th>Fecha de Reporte</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
-            {% for empleado in empleados %}
-            <tr>
-                <td>{{ empleado[0] }}</td>
-                <td>{{ empleado[1] }}</td>
-                <td>{{ empleado[2] }}</td>
-                <td>{{ empleado[3] }}</td>
-                <td>{{ empleado[4] }}</td>
-                <td>
-                    <form action="/eliminar_empleado" method="post" style="display: inline;">
-                        <input type="hidden" name="id_empleado" value="{{ empleado[0] }}">
-                        <button type="submit" class="eliminar-button">Eliminar</button>
-                    </form>
-                    <form action="/editar_empleado" method="get" style="display: inline;">
-                        <input type="hidden" name="id_empleado" value="{{ empleado[0] }}">
-                        <button type="submit" class="modificar-button">Modificar</button>
-                    </form>
-                </td>
-            </tr>
+        </thead>
+        <tbody>
+            {% for reporte in reportes %}
+                <tr>
+                    <td>{{ reporte[0] }}</td>
+                    <td>{{ reporte[1] }}</td>
+                    <td>{{ reporte[2] }}</td>
+                    <td>{{ reporte[3] }}</td>
+                    <td>{{ reporte[4] }}</td> 
+                    <td>
+                        <form action="{{ url_for('eliminar_reporte', id_reporte=reporte[0]) }}" method="post" style="display: inline;">
+                            <button type="submit" class="eliminar-button">Eliminar</button>
+                        </form>
+                        <form action="{{ url_for('modificar_reporte', id_reporte=reporte[0]) }}" method="get" style="display: inline;">
+                            <button type="submit" class="modificar-button">Modificar</button>
+                        </form>
+                    </td>
+                </tr>
             {% endfor %}
-        </table>
-    </div>    
+        </tbody>
+    </table>
+</div>
 </center>
 
 <script>
     function filtrarTabla() {
-        // Obtener el valor de la barra de búsqueda
-        var input, filtro, tabla, filas, celdas, i, txtValue;
-        input = document.getElementById("busqueda");
-        filtro = input.value.toUpperCase();
-        tabla = document.getElementById("tabla-empleados");
-        filas = tabla.getElementsByTagName("tr");
+        // Obtén el valor de la barra de búsqueda
+        var input = document.getElementById("busqueda");
+        var filtro = input.value.toUpperCase();
 
-        // Iterar sobre todas las filas y ocultar las que no coincidan con la búsqueda
-        for (i = 0; i < filas.length; i++) {
-            celdas = filas[i].getElementsByTagName("td");
-            for (var j = 0; j < celdas.length; j++) {
-                txtValue = celdas[j].textContent || celdas[j].innerText;
-                if (txtValue.toUpperCase().indexOf(filtro) > -1) {
+        // Obtén la tabla y las filas de la tabla
+        var tabla = document.getElementById("tabla-reportes");
+        var filas = tabla.getElementsByTagName("tr");
+
+        // Recorre todas las filas y oculta aquellas que no coincidan con la búsqueda
+        for (var i = 0; i < filas.length; i++) {
+            var celdaEstado = filas[i].getElementsByTagName("td")[4];  // Cambia el índice según la posición de la columna de estado
+
+            if (celdaEstado) {
+                var textoEstado = celdaEstado.textContent || celdaEstado.innerText;
+                if (textoEstado.toUpperCase().indexOf(filtro) > -1) {
                     filas[i].style.display = "";
-                    break;
                 } else {
                     filas[i].style.display = "none";
                 }

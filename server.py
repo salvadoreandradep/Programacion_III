@@ -416,10 +416,76 @@ def eliminar_venta(id_venta):
     db.commit()
     return redirect(url_for('ventas'))
 
+## Reportes...................................................................................
+
+@app.route('/reporte')
+def reporte():
+    # Obtén la lista de empleados desde la base de datos
+    cursor.execute("SELECT idEmpleado, nombre FROM Empleados")
+    empleados = cursor.fetchall()
+
+
+    cursor.execute("SELECT ReportesProblemas.idReporte, Empleados.nombre, ReportesProblemas.descripcion, ReportesProblemas.fechaReporte, ReportesProblemas.estado FROM ReportesProblemas JOIN Empleados ON ReportesProblemas.idEmpleado = Empleados.idEmpleado")
+    reportes = cursor.fetchall()
+    
+    return render_template('reportes.html', empleados=empleados, reportes=reportes)
 
 
 
 
+
+
+@app.route('/guardar_reporte', methods=['POST'])
+def guardar_reporte():
+    id_empleado = request.form['id_empleado']
+    descripcion = request.form['descripcion']
+    fecha_reporte = request.form['fecha_reporte']
+    estado = request.form['estado']  
+
+
+    cursor.execute("INSERT INTO ReportesProblemas (idEmpleado, descripcion, fechaReporte, estado) VALUES (%s, %s, %s, %s)",
+                   (id_empleado, descripcion, fecha_reporte, estado))
+    db.commit()
+
+    return redirect(url_for('reporte'))
+
+
+@app.route('/reporte/<int:id_reporte>', methods=['GET', 'POST'])
+def modificar_reporte(id_reporte):
+    if request.method == 'GET':
+        # Obtén la información del reporte según el ID
+        cursor.execute("SELECT * FROM ReportesProblemas WHERE idReporte = %s", (id_reporte,))
+        reporte = cursor.fetchone()
+
+        # Obtén la lista de empleados para el formulario
+        cursor.execute("SELECT idEmpleado, nombre FROM Empleados")
+        empleados = cursor.fetchall()
+
+        return render_template('modificar_reporte.html', reporte=reporte, empleados=empleados)
+    
+    elif request.method == 'POST':
+        # Obtén los datos del formulario de modificación
+        id_empleado = request.form['id_empleado']
+        descripcion = request.form['descripcion']
+        fecha_reporte = request.form['fecha_reporte']
+        estado = request.form['estado']
+
+        # Actualiza el reporte en la base de datos
+        cursor.execute("UPDATE ReportesProblemas SET idEmpleado=%s, descripcion=%s, fechaReporte=%s, estado=%s WHERE idReporte=%s",
+                       (id_empleado, descripcion, fecha_reporte, estado, id_reporte))
+        db.commit()
+
+        return redirect(url_for('reporte'))
+    
+    
+
+@app.route('/eliminar_reporte/<int:id_reporte>', methods=['POST'])
+def eliminar_reporte(id_reporte):
+    # Elimina el reporte de la base de datos
+    cursor.execute("DELETE FROM ReportesProblemas WHERE idReporte = %s", (id_reporte,))
+    db.commit()
+
+    return redirect(url_for('reporte'))
 
 ## Extras...................................................................................
 @app.route('/login', methods=['POST'])
@@ -514,6 +580,10 @@ def salidas():
 @app.route('/ventas')
 def venta():
     return render_template('ventas.html')
+
+@app.route('/reporte')
+def reportes():
+    return render_template('reportes.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
