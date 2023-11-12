@@ -15,6 +15,8 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
+
+
 ## Administracion de productos................................................................
 
 @app.route('/producto')
@@ -136,10 +138,75 @@ def guardar_modificacion():
 
     return redirect('/proveedor')
 
-## Administracion de Empleados................................................................
+## Administracion de Cliente................................................................
 
+@app.route('/cliente')
+def mostrar_clientes():
+ 
+    cursor.execute("SELECT * FROM Clientes")
+    clientes = cursor.fetchall()
+    return render_template('clientes.html', clientes=clientes)
+    
 
-## Extras.....................................................................................
+@app.route('/guardar_cliente', methods=['POST'])
+def guardar_cliente():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+
+        # Inserta el nuevo cliente en la base de datos
+        cursor.execute("INSERT INTO Clientes (nombre, direccion, telefono) VALUES (%s, %s, %s)",
+                       (nombre, direccion, telefono))
+        db.commit()
+
+        return redirect('/cliente')
+    
+@app.route('/eliminar_cliente', methods=['POST'])
+def eliminar_cliente():
+    if request.method == 'POST':
+        id_cliente = request.form['id_cliente']
+        cursor.execute("DELETE FROM Clientes WHERE idCliente = %s", (id_cliente,))
+        db.commit()
+
+        return redirect('/cliente')
+    
+
+@app.route('/modificar_cliente', methods=['GET'])
+def modificar_cliente():
+    if request.method == 'GET':
+        id_cliente = request.args.get('id_cliente')
+
+        # Obtiene la información del cliente de la base de datos
+        cursor.execute("SELECT * FROM Clientes WHERE idCliente = %s", (id_cliente,))
+        cliente = cursor.fetchone()
+
+        return render_template('modificar_cliente.html', cliente=cliente)
+    
+
+@app.route('/guardar_modificacionC', methods=['POST'])
+def guardar_modificacionC():
+    if request.method == 'POST':
+        id_cliente = request.form['id_cliente']
+        nombre = request.form['nombre']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+
+        # Actualiza la información del cliente en la base de datos
+        cursor.execute("UPDATE Clientes SET nombre=%s, direccion=%s, telefono=%s WHERE idCliente=%s",
+                       (nombre, direccion, telefono, id_cliente))
+        db.commit()
+
+        return redirect('cliente')
+   
+
+## Administracion de empleados..............................................................  
+
+## Administracion de entradas...............................................................
+
+## Administracion de salidas................................................................
+
+## Extras...................................................................................
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
@@ -213,7 +280,9 @@ def producto():
 def proveedore():
     return render_template('proveedores.html')
 
-
+@app.route('/cliente')
+def cliente():
+    return render_template('clientes.html')
 
 
 

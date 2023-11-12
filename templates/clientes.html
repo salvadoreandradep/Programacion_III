@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Proveedores</title>
-<style>
-            body {
+    <title>Formulario de Productos</title>
+    <style>
+           body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -150,100 +150,78 @@
 
 
 
+        
 
-    
-
-</style>
+    </style>
 </head>
-<body>
 
+
+<body>
 
     <header>
         <h1>UI Freund System - v1.1</h1>
-        <h2> Administracion de Proveedores </h2>
+        <h1> Administracion de Clientes </h1>
        
     </header>
 
     <nav>
 
         <a href="admin">Inicio</a>
+        <a href="proveedor">Proveedores</a>
         <a href="producto">Productos</a>
-        <a href="cliente">Clientes</a>
       
+        
        
+
         
     </nav>
 <div class="container">
-    <h1>Añade un Proveedores</h1>
-    <form action="/guardar_proveedor" method="post">
+    <h1>Formulario de Cliente</h1>
+    <form action="/guardar_cliente" method="post">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br>
+        <input type="text" name="nombre" required><br>
 
         <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" name="direccion" required><br>
+        <input type="text" name="direccion" required><br>
 
         <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" required><br>
+        <input type="text" name="telefono" required><br>
 
         <input type="submit" value="Guardar">
     </form>
+
 </div>
+
 <center>
 <div class="container1">
-    <input type="text" id="busqueda" placeholder="Buscar proveedor..." oninput="filtrarTabla()">
-    <table id="tabla-proveedores">
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+    </tr>
+    {% for cliente in clientes %}
         <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Acciones</th>
-        </tr>
-        {% for proveedor in proveedores %}
-        <tr>
-            <td>{{ proveedor[0] }}</td>
-            <td>{{ proveedor[1] }}</td>
-            <td>{{ proveedor[2] }}</td>
-            <td>{{ proveedor[3] }}</td>
+            <td>{{ cliente[0] }}</td>
+            <td>{{ cliente[1] }}</td>
+            <td>{{ cliente[2] }}</td>
+            <td>{{ cliente[3] }}</td>
             <td>
-                <form action="/eliminar_proveedor" method="post" style="display: inline;">
-                    <input type="hidden" name="id_proveedor" value="{{ proveedor[0] }}">
+                <form action="/eliminar_cliente" method="post" style="display: inline;">
+                    <input type="hidden" name="id_cliente" value="{{ cliente[0] }}">
                     <button type="submit" class="eliminar-button">Eliminar</button>
                 </form>
-                <form action="/modificar_proveedor" method="get" style="display: inline;">
-                    <input type="hidden" name="id_proveedor" value="{{ proveedor[0] }}">
+                <form action="/modificar_cliente" method="get" style="display: inline;">
+                    <input type="hidden" name="id_cliente" value="{{ cliente[0] }}">
                     <button type="submit" class="modificar-button">Modificar</button>
                 </form>
             </td>
         </tr>
-        {% endfor %}
-    </table>
+    {% endfor %}
+</table>
+
 </div>
+
 </center>
-
-
-<script>
-    function filtrarTabla() {
-        var input, filtro, tabla, filas, celdas, i, j;
-        input = document.getElementById("busqueda");
-        filtro = input.value.toUpperCase();
-        tabla = document.getElementById("tabla-proveedores");
-        filas = tabla.getElementsByTagName("tr");
-
-        for (i = 1; i < filas.length; i++) {
-            celdas = filas[i].getElementsByTagName("td");
-            var mostrarFila = false;
-            for (j = 0; j < celdas.length; j++) {
-                if (celdas[j]) {
-                    if (celdas[j].innerHTML.toUpperCase().indexOf(filtro) > -1) {
-                        mostrarFila = true;
-                        break;
-                    }
-                }
-            }
-            filas[i].style.display = mostrarFila ? "" : "none";
-        }
-    }
-</script>
-</body>
-</html>
