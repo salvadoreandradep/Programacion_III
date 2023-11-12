@@ -157,12 +157,15 @@
     <nav>
 
         <a href="admin">Inicio</a>
-        <a href="producto">Productos</a>
-        <a href="empleado">Empleados</a>
-
-        <a href="proveedore">Proveedores</a>
-        <a href="bitacora">Bitacora</a>
-        <a href="reportetabla">Reportes </a>
+        <a href="">Clientes</a>
+        <a href="">Empleados</a>
+        <a href="">Proveedores</a>
+        <a href="">Entradas</a>
+        <a href="">Salidas</a>
+        <a href="">ventas</a>
+        
+        
+       
 
         
     </nav>
@@ -206,6 +209,9 @@
             <td>{{ producto[3] }}</td>
             <td>{{ producto[4] }}</td>
             <td>
+                <form action="/modificar/{{ producto[0] }}" method="get" style="display: inline;">
+                    <button type="submit">Modificar</button>
+                </form>
                 <form action="/eliminar/{{ producto[0] }}" method="post" style="display: inline;">
                     <button type="submit">Eliminar</button>
                 </form>

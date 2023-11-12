@@ -28,7 +28,7 @@ def mostrar_productos():
 
 
 @app.route('/guardar', methods=['POST'])
-def guardarP():
+def guardar():
     nombre = request.form['nombre']
     descripcion = request.form['descripcion']
     precio = request.form['precio']
@@ -51,6 +51,30 @@ def eliminar_producto(producto_id):
     return redirect('/producto')
 
 
+
+@app.route('/modificar/<int:producto_id>', methods=['GET'])
+def modificar_producto(producto_id):
+    # Recuperar información del producto de la base de datos
+    cursor.execute("SELECT * FROM Productos WHERE idProducto = %s", (producto_id,))
+    producto = cursor.fetchone()
+
+    # Renderizar la plantilla con el formulario de modificación
+    return render_template('modificar_producto.html', producto=producto)
+
+
+@app.route('/actualizar/<int:producto_id>', methods=['POST'])
+def actualizar_producto(producto_id):
+    nombre = request.form['nombre']
+    descripcion = request.form['descripcion']
+    precio = request.form['precio']
+    stock = request.form['stock']
+
+    # Actualizar producto en la base de datos
+    update_query = "UPDATE Productos SET nombre=%s, descripcion=%s, precio=%s, stock=%s WHERE idProducto=%s"
+    cursor.execute(update_query, (nombre, descripcion, precio, stock, producto_id))
+    db.commit()
+
+    return redirect('/producto')
 
 ##Administracion de clientes.......................................................................
 
