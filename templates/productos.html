@@ -19,6 +19,12 @@
             padding: 20px;
         }
 
+        header h1{
+            text-decoration: none;
+            color: #fff;
+            margin: 10px;
+        }
+
         nav {
             background-color: #444;
             color: #fff;
@@ -95,7 +101,7 @@
         input[type="submit"]:hover {
             background-color: #555;
         }
-        
+
         .container1 {
             max-width: 960px;
             margin: 20px auto;
@@ -122,6 +128,20 @@
             color: #fff;
         }
 
+        button {
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #d32f2f;
+    }
+        
+
     </style>
 </head>
 
@@ -129,8 +149,8 @@
 <body>
 
     <header>
-        <h1>UI Freund System - v1.0</h1>
-        <h1> Clientes </h1>
+        <h1>UI Freund System - v1.1</h1>
+        <h1> Administracion de Productos </h1>
        
     </header>
 
@@ -138,7 +158,6 @@
 
         <a href="admin">Inicio</a>
         <a href="producto">Productos</a>
-       
         <a href="empleado">Empleados</a>
 
         <a href="proveedore">Proveedores</a>
@@ -167,6 +186,7 @@
 
     
 </div>
+
 <center>
 <div class="container1">
     <table>
@@ -176,6 +196,7 @@
             <th>Descripción</th>
             <th>Precio</th>
             <th>Stock</th>
+            <th>Acciones</th>
         </tr>
         {% for producto in productos %}
         <tr>
@@ -184,6 +205,11 @@
             <td>{{ producto[2] }}</td>
             <td>{{ producto[3] }}</td>
             <td>{{ producto[4] }}</td>
+            <td>
+                <form action="/eliminar/{{ producto[0] }}" method="post" style="display: inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>
