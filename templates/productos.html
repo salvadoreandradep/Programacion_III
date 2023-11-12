@@ -188,7 +188,8 @@
 
 <center>
 <div class="container1">
-    <table>
+    <input type="text" id="busqueda" placeholder="Buscar por nombre...">
+    <table id="tabla-productos">
         <tr>
             <th>ID</th>
             <th>Nombre</th>
@@ -217,5 +218,30 @@
     </table>
 </div>
 </center>
+
+
+<script>
+    document.getElementById('busqueda').addEventListener('input', function() {
+        var filtro = this.value.toUpperCase();
+        var tabla = document.getElementById('tabla-productos');
+        var filas = tabla.getElementsByTagName('tr');
+
+        for (var i = 1; i < filas.length; i++) {
+            var celdaNombre = filas[i].getElementsByTagName('td')[1];
+            var celdaCodigo = filas[i].getElementsByTagName('td')[0];
+
+            if (celdaNombre || celdaCodigo) {
+                var textoCeldaNombre = celdaNombre.textContent || celdaNombre.innerText;
+                var textoCeldaCodigo = celdaCodigo.textContent || celdaCodigo.innerText;
+                
+                if (textoCeldaNombre.toUpperCase().indexOf(filtro) > -1 || textoCeldaCodigo.toUpperCase().indexOf(filtro) > -1) {
+                    filas[i].style.display = '';
+                } else {
+                    filas[i].style.display = 'none';
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
