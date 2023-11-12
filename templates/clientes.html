@@ -194,7 +194,10 @@
 
 <center>
 <div class="container1">
-<table>
+
+    <input type="text" id="busqueda" placeholder="Buscar Cliente..." oninput="filtrarTabla()">
+    <table id="tabla-clientes">
+
     <tr>
         <th>ID</th>
         <th>Nombre</th>
@@ -225,3 +228,29 @@
 </div>
 
 </center>
+
+<script>
+    function filtrarTabla() {
+            var input, filtro, tabla, filas, celdas, i, j;
+            input = document.getElementById("busqueda");
+            filtro = input.value.toUpperCase();
+            tabla = document.getElementById("tabla-clientes");
+            filas = tabla.getElementsByTagName("tr");
+
+            for (i = 1; i < filas.length; i++) {
+                celdas = filas[i].getElementsByTagName("td");
+                var mostrarFila = false;
+                for (j = 0; j < celdas.length; j++) {
+                    if (celdas[j]) {
+                        if (celdas[j].innerHTML.toUpperCase().indexOf(filtro) > -1) {
+                            mostrarFila = true;
+                            break;
+                        }
+                    }
+                }
+                filas[i].style.display = mostrarFila ? "" : "none";
+            }
+        }
+</script>
+</body>
+</html>
