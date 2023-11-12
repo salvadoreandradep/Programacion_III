@@ -9,42 +9,40 @@ db = mysql.connector.connect(
   host="localhost",
   user="root",
   password="",
-  database="db_freund"
+  database="mitienda"
 )
 
 
+cursor = db.cursor()
+
 ## Administracion de productos................................................................
 @app.route('/producto')
-def tabla_productos():
-    cursor = db.cursor()
-    cursor.execute("SELECT nombre, marca, area, disponibilidad FROM producto")
-    alumnos = cursor.fetchall()
-    return render_template('productos.html', alumnos=alumnos)
+def mostrar_productos():
+    # Obtener productos de la base de datos
+    cursor.execute("SELECT * FROM Productos")
+    productos = cursor.fetchall()
+
+    # Renderizar la plantilla con la lista de productos
+    return render_template('productos.html', productos=productos)
 
 
-@app.route('/guardarP', methods=['POST'])
+@app.route('/guardar', methods=['POST'])
 def guardarP():
-    cursor = db.cursor()
-    codigo = request.form['txtCodigoAlumnos']
-    nombre = request.form['txtNombreAlumnos']
-    direccion = request.form['txtDireccionAlumnos']
-    telefono = request.form['txtTelefonoAlumnos']
+    nombre = request.form['nombre']
+    descripcion = request.form['descripcion']
+    precio = request.form['precio']
+    stock = request.form['stock']
 
-
-    query = "INSERT INTO producto (nombre, marca, area, disponibilidad) VALUES (%s, %s, %s, %s)"
-    cursor.execute(query, (codigo, nombre, direccion, telefono))
+    # Insertar datos en la base de datos
+    insert_query = "INSERT INTO Productos (nombre, descripcion, precio, stock) VALUES (%s, %s, %s, %s)"
+    cursor.execute(insert_query, (nombre, descripcion, precio, stock))
     db.commit()
-    cursor.close()
 
-    return redirect(url_for('producto'))
+    return redirect('/producto')
 
-@app.route('/eliminar_producto', methods=['POST'])
-def eliminar_producto():
-    codigo = request.form['codigo']
-    cursor = db.cursor()
-    cursor.execute("DELETE FROM `producto` WHERE nombre =  %s", (codigo,))
-    db.commit()
-    return redirect('producto')
+
+
+
 
 ##Administracion de clientes.......................................................................
 
@@ -163,7 +161,7 @@ def login():
     username = request.form['username']
     password = request.form['password']
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE nombre_usuario = %s AND contrasena = %s", (username, password))
+    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contrasena = %s", (username, password))
     user = cursor.fetchone()
     if user:
         return redirect(url_for('Inicio'))
@@ -178,7 +176,7 @@ def Relogin():
     username = request.form['username']
     password = request.form['password']
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE nombre_usuario = %s AND contrasena = %s", (username, password))
+    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contrasena = %s", (username, password))
     user = cursor.fetchone()
     if user:
         return redirect(url_for('admin'))

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nombre de la Empresa - Inicio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Productos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,155 +51,93 @@
 
 
         /* Estilos para el contenedor principal */
-.container1 {
-    margin-top: 20px;
-    background-color: #333;
-    color: #fff;
-   
-    padding: 20px;
-}
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
 
-/* Estilos para el formulario */
-.card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.card-header {
-    background-color: #ffc107;
-    color: #000;
-}
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-.card-footer {
-    border-top: 1px solid #28a745;
-}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
 
-/* Estilos para los campos de entrada y etiquetas */
-.form-group {
-    margin-bottom: 15px;
-}
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-.col-form-label {
-    font-weight: bold;
-}
-
-/* Estilos para los botones */
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.btn-success {
-    background-color: #28a745;
-    color: #fff;
-}
-
-.btn {
-    margin-right: 10px;
-}
-
-
-/* Estilos para el contenedor de la tabla */
-.card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 20px;
-}
-
-.card-body {
-    background-color: #ffc107;
-    color: #000;
-}
-
-/* Estilos para la tabla */
-.table {
-    background-color: #343a40;
-    color: #fff;
-}
-
-.table thead th {
-    background-color: #343a40;
-    border-top: none;
-}
-
-/* Estilos para los botones dentro de la tabla */
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.btn {
-    margin-right: 10px;
-}
-
-table {
-        width: 100%;
-        border-collapse: collapse;
-        animation: fadeIn 1s ease-in-out;
-        width: 80%;
-        margin: 20px auto;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-    }
-
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-       
-        
-        
-       
-    }
-
-    th {
-        background-color: #f2f2f2;
-        padding: 10px;
-       
-        text-align: left;
-        border-bottom: 1px solid #ccc;
-        background-color: #444;
-       
+        input[type="submit"] {
+            background-color: #444;
             color: #fff;
-    }
-    tr{
-        border-radius: 10px;
-    }
-
-    .btn {
-        transition: transform 0.2s ease-in-out;
-    }
-
-    .btn:hover {
-        transform: scale(1.1);
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+            cursor: pointer;
         }
-        to {
-            opacity: 1;
-        }
-    }
 
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+        .container1 {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
 
     </style>
 </head>
+
+
 <body>
+
     <header>
         <h1>UI Freund System - v1.0</h1>
-        <h1> Productos </h1>
+        <h1> Clientes </h1>
        
     </header>
 
     <nav>
 
         <a href="admin">Inicio</a>
+        <a href="producto">Productos</a>
        
-        <a href="cliente">Clientes</a>
         <a href="empleado">Empleados</a>
 
         <a href="proveedore">Proveedores</a>
@@ -208,139 +146,47 @@ table {
 
         
     </nav>
+<div class="container">
+    <form action="/guardar" method="post">
+        <h1>Añadir de Productos</h1>
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" required>
 
-    <div class="container">
-        <center>
-        <h1>Bienvenido al Sistema UI Freund.</h1>
-    </center>
-    </div>
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcion" required></textarea>
 
+        <label for="precio">Precio:</label>
+        <input type="number" step="0.01" name="precio" required>
 
-    <form action="/guardarP" method="POST">
-         <div class="container1">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-warning text-black">
-                            AGREGA UN PRODUCTO
-                        </div>
-                        <div class="card-body">
-                            <div class="row p-1">
-                                <div class="col-9">NOMBRE:</div>
-                                <div class="col-9">
-                                    <input required type="text" name="txtCodigoAlumnos" id="txtCodigoAlumnos" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row p-1">
-                                <div class="col-9">MARCA:</div>
-                                <div class="col-">
-                                    <input required type="text" name="txtNombreAlumnos" id="txtNombreAlumnos" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row p-1">
-                                <div class="col-9">AREA:</div>
-                                <div class="col-9">
-                                    <input required type="text" name="txtDireccionAlumnos" id="txtDireccionAlumnos" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-9">DISPONIBILIDAD</div>
-                                <div class="col-9">
-                                    <input required type="text" name="txtTelefonoAlumnos" id="txtTelefonoAlumnos" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-success">
-                            <div class="row">
-                                <div class="col text-center">
-                                    <input type="reset" value="Nuevo" class="btn btn-danger">
-                                    <input type="submit" value="Guardar" class="btn btn-success">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> 
-    
- 
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" required>
+
+        <input type="submit" value="Guardar">
     </form>
 
-
-
-
-
-
-
-
-    <div class="card">
-        <div class="card-body bg-warning ">
-            <div class="row">
-                <div class="col">
-                    <h5 class="card-title text-black">Lista de Productos</h5>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Buscar:</span>
-                        <input type="text" name="txtBuscarAlumnos" id="txtBuscarAlumnos" class="form-control">
-                    </div>
-                    <table class="table table-striped table-hover table-dark" id="tblConsultaAlumnos">
-                        <thead>
-                            <tr>
-                                <th>NOMBRE</th>
-                                <th>MARCA</th>
-                                <th>AREA</th>
-                                <th>DISPONIBILIDAD</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for alumno in alumnos %}
-                            <tr>
-                                <td>{{ alumno[0] }}</td>
-                                <td>{{ alumno[1] }}</td>
-                                <td>{{ alumno[2] }}</td>
-                                <td>{{ alumno[3] }}</td>
-                                <td>
-                                    <form method="POST" action="/eliminar_producto">
-                                        <input type="hidden" name="codigo" value="{{ alumno[0] }}">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     
-    <script>
-              
-    
-        const input = document.getElementById('txtBuscarAlumnos');
-        const table = document.getElementById('tblConsultaAlumnos');
-        const rows = table.getElementsByTagName('tr');
-
-        input.addEventListener('input', function () {
-            const filter = input.value.toLowerCase();
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
-                const cells = row.getElementsByTagName('td');
-                let visible = false;
-                for (let j = 0; j < cells.length; j++) {
-                    const cell = cells[j];
-                    if (cell.innerHTML.toLowerCase().includes(filter)) {
-                        visible = true;
-                        break;
-                    }
-                }
-                row.style.display = visible ? '' : 'none';
-            }
-        });
-    
-        </script>
-        
-        
-   
+</div>
+<center>
+<div class="container1">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto[0] }}</td>
+            <td>{{ producto[1] }}</td>
+            <td>{{ producto[2] }}</td>
+            <td>{{ producto[3] }}</td>
+            <td>{{ producto[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</center>
 </body>
 </html>
