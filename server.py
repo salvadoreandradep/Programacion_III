@@ -265,6 +265,43 @@ def guardar_edicion():
 
 ## Administracion de entradas...............................................................
 
+
+@app.route("/entradas")
+def index():
+    # Consulta a la base de datos para obtener las opciones de Producto y Proveedor
+    cursor.execute("SELECT idProducto, nombre FROM Productos")
+    productos = cursor.fetchall()
+    cursor.execute("SELECT idProveedor, nombre FROM Proveedores")
+    proveedores = cursor.fetchall()
+    
+
+
+    cursor.execute("SELECT Entradas.idEntrada, Productos.nombre, Proveedores.nombre, Entradas.cantidad, Entradas.fechaEntrada FROM Entradas \
+                    INNER JOIN Productos ON Entradas.idProducto = Productos.idProducto \
+                    INNER JOIN Proveedores ON Entradas.idProveedor = Proveedores.idProveedor")
+    entradas = cursor.fetchall()
+
+    return render_template("entradas.html", productos=productos, proveedores=proveedores, entradas=entradas)
+
+
+
+@app.route("/guardar_entrada", methods=["POST"])
+def guardar_entrada():
+    # Obtener datos del formulario
+    id_producto = request.form.get("id_producto")
+    id_proveedor = request.form.get("id_proveedor")
+    cantidad = request.form.get("cantidad")
+    fecha = request.form.get("fecha")
+
+    # Insertar datos en la base de datos
+    cursor.execute("INSERT INTO Entradas (idProducto, idProveedor, cantidad, fechaEntrada) VALUES (%s, %s, %s, %s)",
+                   (id_producto, id_proveedor, cantidad, fecha))
+    db.commit()
+
+    return redirect(url_for('entradas'))
+
+
+
 ## Administracion de salidas................................................................
 
 
@@ -356,6 +393,10 @@ def cliente():
 @app.route('/empleados')
 def empleados():
     return render_template('empleados.html')
+
+@app.route('/entradas')
+def entradas():
+    return render_template('entradas.html')
 
 
 if __name__ == '__main__':

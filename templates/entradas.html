@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Proveedores</title>
-<style>
-            body {
+    <title>Formulario de Clientes</title>
+    <style>
+           body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -148,19 +148,36 @@
             box-sizing: border-box;
         }
 
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
 
 
 
-    
+        
 
-</style>
+    </style>
 </head>
-<body>
 
+
+<body>
 
     <header>
         <h1>UI Freund System - v1.1</h1>
-        <h2> Administracion de Proveedores </h2>
+        <h1> Administracion de Entradas </h1>
        
     </header>
 
@@ -172,81 +189,90 @@
         <a href="cliente">Clientes</a>
         <a href="empleados">Empleados</a>
         <a href="entradas">Entradas</a>
-      
+
+        
        
+
         
     </nav>
-<div class="container">
-    <h1>Añade un Proveedores</h1>
-    <form action="/guardar_proveedor" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br>
 
-        <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" name="direccion" required><br>
+    <div class="container">
+        
+        <form action="/guardar_entrada" method="post">
+            <label for="id_producto">ID Producto:</label>
+            <select name="id_producto" id="id_producto">
+                {% for producto in productos %}
+                    <option value="{{ producto[0] }}">{{ producto[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="id_proveedor">ID Proveedor:</label>
+            <select name="id_proveedor" id="id_proveedor">
+                {% for proveedor in proveedores %}
+                    <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" name="cantidad" required>
+            <br>
+            <label for="fecha">Fecha de Entrada:</label>
+            <input type="date" name="fecha" required>
+            <br>
+            <input type="submit" value="Guardar Entrada">
+        </form>
 
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" required><br>
-
-        <input type="submit" value="Guardar">
-    </form>
-</div>
+    </div>
 <center>
-<div class="container1">
-    <input type="text" id="busqueda" placeholder="Buscar proveedor..." oninput="filtrarTabla()">
-    <table id="tabla-proveedores" border="1">
+<div class="container1" >
+    <input type="text" id="busqueda" placeholder="Buscar Cliente..." oninput="filtrarTabla()">
+    <table id="tabla-clientes" border="1">
         <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Acciones</th>
+            <th>ID Entrada</th>
+            <th>ID Producto</th>
+            <th>ID Proveedor</th>
+            <th>Cantidad</th>
+            <th>Fecha de Entrada</th>
         </tr>
-        {% for proveedor in proveedores %}
-        <tr>
-            <td>{{ proveedor[0] }}</td>
-            <td>{{ proveedor[1] }}</td>
-            <td>{{ proveedor[2] }}</td>
-            <td>{{ proveedor[3] }}</td>
-            <td>
-                <form action="/eliminar_proveedor" method="post" style="display: inline;">
-                    <input type="hidden" name="id_proveedor" value="{{ proveedor[0] }}">
-                    <button type="submit" class="eliminar-button">Eliminar</button>
-                </form>
-                <form action="/modificar_proveedor" method="get" style="display: inline;">
-                    <input type="hidden" name="id_proveedor" value="{{ proveedor[0] }}">
-                    <button type="submit" class="modificar-button">Modificar</button>
-                </form>
-            </td>
-        </tr>
+        {% for entrada in entradas %}
+            <tr>
+                <td>{{ entrada[0] }}</td>
+                <td>{{ entrada[1] }}</td>
+                <td>{{ entrada[2] }}</td>
+                <td>{{ entrada[3] }}</td>
+                <td>{{ entrada[4] }}</td>
+            </tr>
         {% endfor %}
     </table>
 </div>
 </center>
 
-
 <script>
     function filtrarTabla() {
-        var input, filtro, tabla, filas, celdas, i, j;
+        var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("busqueda");
-        filtro = input.value.toUpperCase();
-        tabla = document.getElementById("tabla-proveedores");
-        filas = tabla.getElementsByTagName("tr");
-
-        for (i = 1; i < filas.length; i++) {
-            celdas = filas[i].getElementsByTagName("td");
-            var mostrarFila = false;
-            for (j = 0; j < celdas.length; j++) {
-                if (celdas[j]) {
-                    if (celdas[j].innerHTML.toUpperCase().indexOf(filtro) > -1) {
-                        mostrarFila = true;
-                        break;
-                    }
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tabla-clientes");
+        tr = table.getElementsByTagName("tr");
+        
+        for (i = 1; i < tr.length; i++) { // Empezamos desde 1 para omitir la fila de encabezados
+            td = tr[i].getElementsByTagName("td")[1]; // Cambia el índice según la columna que deseas buscar
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
-            filas[i].style.display = mostrarFila ? "" : "none";
         }
     }
 </script>
 </body>
 </html>
+
+
+
+
+
+
