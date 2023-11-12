@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Productos</title>
     <style>
-        body {
+           body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -140,6 +140,16 @@
     button:hover {
         background-color: #d32f2f;
     }
+       
+    input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+
+
         
 
     </style>
@@ -150,101 +160,104 @@
 
     <header>
         <h1>UI Freund System - v1.1</h1>
-        <h1> Administracion de Productos </h1>
+        <h1> Administracion de Empleados </h1>
        
     </header>
 
     <nav>
-
         <a href="admin">Inicio</a>
         <a href="producto">Productos</a>
         <a href="proveedor">Proveedores</a>
         <a href="cliente">Clientes</a>
         <a href="empleados">Empleados</a>
-           
+       
+        
        
 
         
     </nav>
-<div class="container">
-    <form action="/guardar" method="post">
-        <h1>Añadir de Productos</h1>
+
+    <div class="container">
+
+        <h1>Formulario de Empleados</h1>
+    <form action="/guardar_empleado" method="post">
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" required>
+        <input type="text" name="nombre" required><br>
 
-        <label for="descripcion">Descripción:</label>
-        <textarea name="descripcion" required></textarea>
+        <label for="cargo">Cargo:</label>
+        <input type="text" name="cargo" required><br>
 
-        <label for="precio">Precio:</label>
-        <input type="number" step="0.01" name="precio" required>
+        <label for="salario">Salario:</label>
+        <input type="number" name="salario" step="0.01" required><br>
 
-        <label for="stock">Stock:</label>
-        <input type="number" name="stock" required>
+        <label for="fecha_contratacion">Fecha de Contratación:</label>
+        <input type="date" name="fecha_contratacion" required><br>
 
         <input type="submit" value="Guardar">
     </form>
+    </div>
 
+    <center>
     
-</div>
+    <div class="container1">
+        <input type="text" id="busqueda" placeholder="Buscar Empleado..." oninput="filtrarTabla()">
 
-<center>
-<div class="container1">
-    <input type="text" id="busqueda" placeholder="Buscar por nombre...">
-    <table id="tabla-productos">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-        </tr>
-        {% for producto in productos %}
-        <tr>
-            <td>{{ producto[0] }}</td>
-            <td>{{ producto[1] }}</td>
-            <td>{{ producto[2] }}</td>
-            <td>{{ producto[3] }}</td>
-            <td>{{ producto[4] }}</td>
-            <td>
-                <form action="/modificar/{{ producto[0] }}" method="get" style="display: inline;">
-                    <button type="submit">Modificar</button>
-                </form>
-                <form action="/eliminar/{{ producto[0] }}" method="post" style="display: inline;">
-                    <button type="submit">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+    <!-- Tabla de empleados -->
+    <table id="tabla-empleados" border="1">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Salario</th>
+                <th>Fecha de Contratación</th>
+                <th>Acciones</th>
+            </tr>
+            {% for empleado in empleados %}
+            <tr>
+                <td>{{ empleado[0] }}</td>
+                <td>{{ empleado[1] }}</td>
+                <td>{{ empleado[2] }}</td>
+                <td>{{ empleado[3] }}</td>
+                <td>{{ empleado[4] }}</td>
+                <td>
+                    <form action="/eliminar_empleado" method="post" style="display: inline;">
+                        <input type="hidden" name="id_empleado" value="{{ empleado[0] }}">
+                        <button type="submit" class="eliminar-button">Eliminar</button>
+                    </form>
+                    <form action="/editar_empleado" method="get" style="display: inline;">
+                        <input type="hidden" name="id_empleado" value="{{ empleado[0] }}">
+                        <button type="submit" class="modificar-button">Modificar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>    
 </center>
 
-
 <script>
-    document.getElementById('busqueda').addEventListener('input', function() {
-        var filtro = this.value.toUpperCase();
-        var tabla = document.getElementById('tabla-productos');
-        var filas = tabla.getElementsByTagName('tr');
+    function filtrarTabla() {
+        // Obtener el valor de la barra de búsqueda
+        var input, filtro, tabla, filas, celdas, i, txtValue;
+        input = document.getElementById("busqueda");
+        filtro = input.value.toUpperCase();
+        tabla = document.getElementById("tabla-empleados");
+        filas = tabla.getElementsByTagName("tr");
 
-        for (var i = 1; i < filas.length; i++) {
-            var celdaNombre = filas[i].getElementsByTagName('td')[1];
-            var celdaCodigo = filas[i].getElementsByTagName('td')[0];
-            var celdaDescripcion = filas[i].getElementsByTagName('td')[2];
-
-            if (celdaNombre || celdaCodigo || celdaDescripcion) {
-                var textoCeldaNombre = celdaNombre.textContent || celdaNombre.innerText;
-                var textoCeldaCodigo = celdaCodigo.textContent || celdaCodigo.innerText;
-                var textoCeldaDescripcion = celdaDescripcion.textContent || celdaDescripcion.innerText;
-                
-                if (textoCeldaNombre.toUpperCase().indexOf(filtro) > -1 || textoCeldaCodigo.toUpperCase().indexOf(filtro) > -1 || textoCeldaDescripcion.toUpperCase().indexOf(filtro) > -1) {
-                    filas[i].style.display = '';
+        // Iterar sobre todas las filas y ocultar las que no coincidan con la búsqueda
+        for (i = 0; i < filas.length; i++) {
+            celdas = filas[i].getElementsByTagName("td");
+            for (var j = 0; j < celdas.length; j++) {
+                txtValue = celdas[j].textContent || celdas[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filtro) > -1) {
+                    filas[i].style.display = "";
+                    break;
                 } else {
-                    filas[i].style.display = 'none';
+                    filas[i].style.display = "none";
                 }
             }
         }
-    });
+    }
 </script>
 </body>
 </html>

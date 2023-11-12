@@ -202,9 +202,95 @@ def guardar_modificacionC():
 
 ## Administracion de empleados..............................................................  
 
+@app.route('/empleados')
+def mostrar_empleados():
+    # Consulta la base de datos para obtener la lista de empleados
+    cursor.execute("SELECT * FROM Empleados")
+    empleados = cursor.fetchall()
+    return render_template('empleados.html', empleados=empleados)
+
+
+@app.route('/guardar_empleado', methods=['POST'])
+def guardar_empleado():
+    nombre = request.form['nombre']
+    cargo = request.form['cargo']
+    salario = request.form['salario']
+    fecha_contratacion = request.form['fecha_contratacion']
+
+    # Realiza la inserción en la base de datos
+    cursor.execute("INSERT INTO Empleados (nombre, cargo, salario, fechaContratacion) VALUES (%s, %s, %s, %s)",
+                   (nombre, cargo, salario, fecha_contratacion))
+    db.commit()
+
+    return redirect(url_for('empleados'))
+
+
+
+@app.route('/eliminar_empleado', methods=['POST'])
+def eliminar_empleado():
+    id_empleado = request.form['id_empleado']
+
+    # Realiza la eliminación en la base de datos
+    cursor.execute("DELETE FROM Empleados WHERE idEmpleado = %s", (id_empleado,))
+    db.commit()
+
+    return redirect(url_for('empleados'))
+
+@app.route('/editar_empleado', methods=['GET'])
+def editar_empleado():
+    id_empleado = request.args.get('id_empleado')
+
+    # Consulta la base de datos para obtener los datos del empleado seleccionado
+    cursor.execute("SELECT * FROM Empleados WHERE idEmpleado = %s", (id_empleado,))
+    empleado = cursor.fetchone()
+
+    return render_template('modificar_empleado.html', empleado=empleado)
+
+
+@app.route('/guardar_edicion', methods=['POST'])
+def guardar_edicion():
+    id_empleado = request.form['id_empleado']
+    nombre = request.form['nombre']
+    cargo = request.form['cargo']
+    salario = request.form['salario']
+    fecha_contratacion = request.form['fecha_contratacion']
+
+    # Actualiza los datos en la base de datos
+    cursor.execute("UPDATE Empleados SET nombre = %s, cargo = %s, salario = %s, fechaContratacion = %s WHERE idEmpleado = %s",
+                   (nombre, cargo, salario, fecha_contratacion, id_empleado))
+    db.commit()
+
+    return redirect(url_for('empleados'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Administracion de entradas...............................................................
 
 ## Administracion de salidas................................................................
+
+
+
+
+
+
+
+
 
 ## Extras...................................................................................
 @app.route('/login', methods=['POST'])
@@ -284,6 +370,9 @@ def proveedore():
 def cliente():
     return render_template('clientes.html')
 
+@app.route('/empleados')
+def empleados():
+    return render_template('empleados.html')
 
 
 if __name__ == '__main__':
