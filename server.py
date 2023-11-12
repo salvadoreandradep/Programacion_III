@@ -316,6 +316,68 @@ def eliminar_entrada():
 ## Administracion de salidas................................................................
 
 
+@app.route('/salidas')
+def salidasMOstras():
+    # Obtén las opciones para idProducto y idCliente desde la base de datos
+    cursor.execute("SELECT idProducto, nombre FROM Productos")
+    productos = cursor.fetchall()
+
+    cursor.execute("SELECT idCliente, nombre FROM Clientes")
+    clientes = cursor.fetchall()
+
+
+    cursor.execute("SELECT Salidas.idSalida, Productos.nombre AS nombre_producto, Clientes.nombre AS nombre_cliente, Salidas.cantidad, Salidas.fechaSalida "
+                   "FROM Salidas "
+                   "JOIN Productos ON Salidas.idProducto = Productos.idProducto "
+                   "JOIN Clientes ON Salidas.idCliente = Clientes.idCliente")
+    salidas = cursor.fetchall()
+
+        
+    return render_template('salidas.html', productos=productos, clientes=clientes, salidas=salidas)
+
+
+
+@app.route('/guardar_salida', methods=['POST'])
+def guardar_salida():
+    try:
+        # Obtiene los datos del formulario
+        id_producto = request.form['id_producto']
+        id_cliente = request.form['id_cliente']
+        cantidad = request.form['cantidad']
+        fecha_salida = request.form['fecha_salida']
+
+        # Guarda los datos en la base de datos
+        cursor.execute("INSERT INTO Salidas (idProducto, idCliente, cantidad, fechaSalida) VALUES (%s, %s, %s, %s)",
+                       (id_producto, id_cliente, cantidad, fecha_salida))
+        
+        # Realiza el commit para aplicar los cambios en la base de datos
+        db.commit()
+
+        return redirect(url_for('salidas'))
+    except Exception as e:
+        
+        db.rollback()
+        return redirect(url_for('salidas'))
+
+
+@app.route('/salida', methods=['POST'])
+def eliminar_salida():
+    
+        id_salida = request.form['id_salida']
+
+        # Elimina la salida de la base de datos
+        cursor.execute("DELETE FROM Salidas WHERE idSalida = %s", (id_salida,))
+        db.commit()
+
+        return redirect('/salidas')
+  
+
+
+
+
+
+
+
 
 
 
@@ -409,6 +471,9 @@ def empleados():
 def entradas():
     return render_template('entradas.html')
 
+@app.route('/salidas')
+def salidas():
+    return render_template('salidas.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
