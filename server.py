@@ -86,8 +86,6 @@ def mostrar_proveedores():
     return render_template('proveedores.html', proveedores=proveedores)
 
 
-
-
 @app.route('/guardar_proveedor', methods=['POST'])
 def guardar_proveedor():
     nombre = request.form['nombre']
@@ -102,9 +100,41 @@ def guardar_proveedor():
     return redirect('/proveedor')
 
 
+@app.route('/eliminar_proveedor', methods=['POST'])
+def eliminar_proveedor():
+    id_proveedor = request.form['id_proveedor']
 
+    cursor = db.cursor()
+    sql = "DELETE FROM Proveedores WHERE idProveedor = %s"
+    cursor.execute(sql, (id_proveedor,))
+    db.commit()
 
+    return redirect('/proveedor')
 
+@app.route('/modificar_proveedor', methods=['GET'])
+def modificar_proveedor():
+    id_proveedor = request.args.get('id_proveedor')
+
+    cursor = db.cursor()
+    sql = "SELECT * FROM Proveedores WHERE idProveedor = %s"
+    cursor.execute(sql, (id_proveedor,))
+    proveedor = cursor.fetchone()
+
+    return render_template('modificar_proveedor.html', proveedor=proveedor)
+
+@app.route('/guardar_modificacion', methods=['POST'])
+def guardar_modificacion():
+    id_proveedor = request.form['id_proveedor']
+    nombre = request.form['nombre']
+    direccion = request.form['direccion']
+    telefono = request.form['telefono']
+
+    cursor = db.cursor()
+    sql = "UPDATE Proveedores SET nombre=%s, direccion=%s, telefono=%s WHERE idProveedor=%s"
+    cursor.execute(sql, (nombre, direccion, telefono, id_proveedor))
+    db.commit()
+
+    return redirect('/proveedor')
 
 ## Administracion de Empleados................................................................
 
