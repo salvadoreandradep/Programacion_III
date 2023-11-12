@@ -76,7 +76,32 @@ def actualizar_producto(producto_id):
 
     return redirect('/producto')
 
-##Administracion de clientes.......................................................................
+##Administracion de proveedor.......................................................................
+@app.route('/proveedor')
+def mostrar_proveedores():
+    cursor = db.cursor()
+    sql = "SELECT * FROM Proveedores"
+    cursor.execute(sql)
+    proveedores = cursor.fetchall()
+    return render_template('proveedores.html', proveedores=proveedores)
+
+
+
+
+@app.route('/guardar_proveedor', methods=['POST'])
+def guardar_proveedor():
+    nombre = request.form['nombre']
+    direccion = request.form['direccion']
+    telefono = request.form['telefono']
+
+    cursor = db.cursor()
+    sql = "INSERT INTO Proveedores (nombre, direccion, telefono) VALUES (%s, %s, %s)"
+    cursor.execute(sql, (nombre, direccion, telefono))
+    db.commit()
+
+    return redirect('/proveedor')
+
+
 
 
 
@@ -84,7 +109,7 @@ def actualizar_producto(producto_id):
 ## Administracion de Empleados................................................................
 
 
-
+## Extras.....................................................................................
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
@@ -120,7 +145,7 @@ def Relogin():
 
 
 
-
+## Area Inicial........................................................
 
 @app.route('/')
 def formulario():
@@ -132,11 +157,6 @@ def Inicio():
     return render_template('inicio.html')
 
 
-@app.route('/reportes')
-def reporte():
-    return render_template('reportes.html')
-
-
 @app.route('/seguridad')
 def seguridad():
     return render_template('seguridad.html')
@@ -145,37 +165,26 @@ def seguridad():
 def login1():
     return render_template('login1.html')
 
-
 @app.route('/admin')
 def admin():
     return render_template('administracion.html')
+
+## Area Administrativa.................................................
+
+
 
 @app.route('/producto')
 def producto():
     return render_template('productos.html')
 
-@app.route('/cliente')
-def cliente():
-    return render_template('clientes.html')
 
 
-@app.route('/empleado')
-def empleado():
-    return render_template('empleados.html')
-
-
-@app.route('/proveedore')
+@app.route('/proveedor')
 def proveedore():
     return render_template('proveedores.html')
 
 
-@app.route('/bitacora')
-def bitacora():
-    return render_template('bitacora.html')
 
-@app.route('/reportetabla')
-def reportete():
-    return render_template('reportetabla.html')
 
 
 if __name__ == '__main__':
