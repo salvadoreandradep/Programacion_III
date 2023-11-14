@@ -110,23 +110,37 @@
         }
 
         table {
-            width: 80%;
-            border-collapse: collapse;
-            margin: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Agrega bordes redondeados para un aspecto más moderno */
+    overflow: hidden; /* Evita que la sombra se extienda más allá del contenedor */
+}
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
 
-        th {
-            background-color: #333;
-            color: #fff;
-        }
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Añade un estilo alternativo a las filas para mejorar la legibilidad */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Agrega un efecto de transición a las filas al pasar el ratón sobre ellas */
+tr:hover {
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
 
         button {
         background-color: #f44336;

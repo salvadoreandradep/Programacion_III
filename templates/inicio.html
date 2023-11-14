@@ -1,50 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nombre de la Empresa - Inicio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
+            background-color: #f4f4f4;
         }
 
         header {
             background-color: #333;
-            color: #fff;
+            color: white;
+            padding: 10px;
             text-align: center;
-            padding: 20px;
         }
 
         nav {
-            background-color: #444;
-            color: #fff;
-            text-align: center;
+            background-color: #555;
+            color: white;
             padding: 10px;
+            text-align: center;
         }
 
         nav a {
+            color: white;
             text-decoration: none;
-            color: #fff;
-            margin: 10px;
+            padding: 10px;
+            margin: 0 10px;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
         .container {
-            max-width: 960px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-        }
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agrega sombra para resaltar el contenedor */
+    border-radius: 8px; /* Agrega bordes redondeados para un aspecto más moderno */
+    transition: box-shadow 0.3s ease; /* Agrega una transición suave a la sombra */
+}
 
-        h1 {
-            font-size: 24px;
-        }
-
-        p {
-            font-size: 16px;
-        }
+.container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el ratón sobre el contenedor */
+}
     </style>
 </head>
 <body>
@@ -64,6 +79,13 @@
         <h1>Bienvenido al Sistema UI Freund.</h1>
     </center>
     </div>
+
+   
+
+    <footer>
+        <p>&copy; 2023 - Todos los derechos reservados</p>
+    </footer>
+
 </body>
 </html>
 
