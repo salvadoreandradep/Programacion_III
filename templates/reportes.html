@@ -65,6 +65,11 @@
             width: 300px;
         }
 
+
+        .container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
         form {
             display: flex;
             flex-direction: column;
@@ -103,11 +108,37 @@
         }
 
         .container1 {
-            max-width: 960px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-        }
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-sizing: border-box; /* Asegura que el padding y el borde no aumenten el ancho total del contenedor */
+}
+
+/* Agrega un estilo de transición para un cambio suave en propiedades animadas */
+.container1:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Estilo alternativo para mejorar la legibilidad en fondos claros */
+.container1 p {
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Añade un estilo alternativo a los enlaces dentro del contenedor */
+.container1 a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.container1 a:hover {
+    color: #0056b3;
+}
+
 
         table {
     width: 80%;
