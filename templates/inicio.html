@@ -60,19 +60,39 @@
 .container:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el ratón sobre el contenedor */
 }
+
+.button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .button:hover {
+        background-color: #45a049;
+    }
     </style>
 </head>
 <body>
     <header>
-        <h1>UI Freund System v1.0</h1>
+        <h1>UI Freund System v1.1a</h1>
     </header>
 
+   
     <nav>
-       
-        <a href="login1">Administrar datos</a>
-        <a href="seguridad">Seguridad</a>
-        
+        <a href="inicio">Inicio 🏠</a>
+        <a href="login1" onclick="return confirmarAccion()">Administrar datos 🛠️</a>
+        <a href="seguridad">Seguridad 🔒</a>
+        <a href="actualizaciones">Actualizaciones 🔄</a>
     </nav>
+    
+    
+        
+   
 
     <div class="container">
         <center>
@@ -80,12 +100,33 @@
     </center>
     </div>
 
-   
+
+ <div class="container">
+    <section>
+    
+    </section>
+
+    <section>
+        <h2>Últimas actualizaciones</h2>
+        <p>Descubre las últimas características y mejoras en nuestro sistema.</p>
+        <a href="actualizaciones" class="button">Ver más</a>
+        <!-- Agrega más contenido según sea necesario -->
+    </section>
+    
+</div>   
+    
 
     <footer>
         <p>&copy; 2023 - Todos los derechos reservados</p>
     </footer>
 
+
+    <script>
+        function confirmarAccion() {
+            var respuesta = confirm("¿Quieres ir a la página de administración de datos?");
+            return respuesta;
+        }
+        </script>
 </body>
 </html>
 

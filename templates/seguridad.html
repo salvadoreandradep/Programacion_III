@@ -4,90 +4,150 @@
     <meta charset="UTF-8">
     <title>Nombre de la Empresa - Inicio</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+                body {
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
+            background-color: #f4f4f4;
         }
 
         header {
             background-color: #333;
-            color: #fff;
+            color: white;
+            padding: 10px;
             text-align: center;
-            padding: 20px;
         }
 
         nav {
-            background-color: #444;
-            color: #fff;
-            text-align: center;
+            background-color: #555;
+            color: white;
             padding: 10px;
+            text-align: center;
         }
 
         nav a {
+            color: white;
             text-decoration: none;
-            color: #fff;
-            margin: 10px;
+            padding: 10px;
+            margin: 0 10px;
         }
 
-        .container {
-            max-width: 960px;
-            margin: 20px auto;
+        section {
             padding: 20px;
-            background-color: #fff;
         }
 
-        h1 {
-            font-size: 24px;
-        }
-
-        p {
-            font-size: 16px;
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
         .container {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agrega sombra para resaltar el contenedor */
+    border-radius: 8px; /* Agrega bordes redondeados para un aspecto más moderno */
+    transition: box-shadow 0.3s ease; /* Agrega una transición suave a la sombra */
+}
+
+.container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el ratón sobre el contenedor */
+}
+
+.button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .button:hover {
+        background-color: #45a049;
+    }
+    
+    #camera-container {
             position: relative;
         }
-        .timestamp {
-            position: center;
+
+        #camera-feed {
+            width: 640px;
+            height: 480px;
+        }
+
+        #motion-indicator {
+            width: 20px;
+            height: 20px;
+            background-color: green;
+            border-radius: 50%;
+            position: absolute;
             top: 10px;
             left: 10px;
-            color: white;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px;
-            font-size: 18px;
-        }
-        video {
-            display: block;
+            display: none;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>UI Freund System v1.1</h1>
+        <h1>UI Freund System v1.1a</h1>
     </header>
 
     <nav>
-        <a href="inicio">Inicio</a>
-        <a href="login1">Administrar datos</a>
-       
+        <a href="inicio">Inicio 🏠</a>
+        <a href="login1" onclick="return confirmarAccion()">Administrar datos 🛠️</a>
+        <a href="seguridad">Seguridad 🔒</a>
+        <a href="actualizaciones">Actualizaciones 🔄</a>
     </nav>
+    
     <center>
     <div class="container">
-        <video id="camera-feed" autoplay></video>
-        <div class="timestamp" id="timestamp">Fecha y hora</div>
+
+        <div id="camera-container">
+            <video id="camera-feed" autoplay></video>
+            <div id="motion-indicator"></div>
+        </div>
+        <button id="start-button">Start Camera</button>
+        <button id="stop-button">Stop Camera</button>
+        <button id="switch-button">Switch Camera</button>
+        <p id="timestamp"></p>
+       
     </div>
     </center>
+
+    
     <center>
-    <button id="start-button">Iniciar cámara</button>
-    <button id="stop-button">Detener cámara</button>
+        <div class="container">
+      
+      
+    </div>
     </center>
+
+
+    
     <script>
-        const videoElement = document.getElementById('camera-feed');
+       const videoElement = document.getElementById('camera-feed');
         const startButton = document.getElementById('start-button');
         const stopButton = document.getElementById('stop-button');
+        const switchButton = document.getElementById('switch-button');
         const timestampElement = document.getElementById('timestamp');
+        const motionIndicator = document.getElementById('motion-indicator');
+        let currentStream;
+
+        // Variables para detección de movimiento
+        let motionDetected = false;
+        let motionThreshold = 10; // Umbral de movimiento, puedes ajustarlo según tus necesidades
+
+        // Variables para sonido
+        const sound = new Audio('path/to/sound.mp3'); // Cambia la ruta al archivo de sonido
 
         // Función para actualizar la fecha y la hora
         function updateTimestamp() {
@@ -101,7 +161,11 @@
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 videoElement.srcObject = stream;
+                currentStream = stream;
                 updateTimestamp(); // Actualizar la fecha y hora cuando se inicie la cámara
+
+                // Agregar detección de movimiento
+                window.addEventListener('devicemotion', handleMotion);
             } catch (error) {
                 console.error('Error al acceder a la cámara:', error);
             }
@@ -109,19 +173,78 @@
 
         // Detener la cámara
         function stopCamera() {
-            const stream = videoElement.srcObject;
-            if (stream) {
-                const tracks = stream.getTracks();
+            if (currentStream) {
+                const tracks = currentStream.getTracks();
                 tracks.forEach(track => track.stop());
                 videoElement.srcObject = null;
+                // Remover detección de movimiento al detener la cámara
+                window.removeEventListener('devicemotion', handleMotion);
             }
+        }
+
+        // Cambiar entre cámaras
+        async function switchCamera() {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            
+            if (videoDevices.length > 1) {
+                const currentDeviceId = currentStream.getVideoTracks()[0].getSettings().deviceId;
+                const nextDevice = videoDevices.find(device => device.deviceId !== currentDeviceId);
+
+                if (nextDevice) {
+                    stopCamera();
+                    await startCameraWithDevice(nextDevice.deviceId);
+                }
+            }
+        }
+
+        // Iniciar cámara con dispositivo específico
+        async function startCameraWithDevice(deviceId) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: deviceId } } });
+                videoElement.srcObject = stream;
+                currentStream = stream;
+                updateTimestamp();
+                // Agregar detección de movimiento
+                window.addEventListener('devicemotion', handleMotion);
+            } catch (error) {
+                console.error('Error al acceder a la cámara:', error);
+            }
+        }
+
+        // Manejar eventos de detección de movimiento
+        function handleMotion(event) {
+            const acceleration = event.accelerationIncludingGravity;
+            const magnitude = Math.sqrt(acceleration.x ** 2 + acceleration.y ** 2 + acceleration.z ** 2);
+
+            if (magnitude > motionThreshold) {
+                motionDetected = true;
+                // Mostrar indicador de movimiento
+                motionIndicator.style.backgroundColor = 'red';
+                // Reproducir sonido
+                playSound();
+            } else {
+                motionDetected = false;
+                // Ocultar indicador de movimiento
+                motionIndicator.style.backgroundColor = 'green';
+            }
+        }
+
+        // Reproducir sonido
+        function playSound() {
+            sound.play();
         }
 
         startButton.addEventListener('click', startCamera);
         stopButton.addEventListener('click', stopCamera);
-
+        switchButton.addEventListener('click', switchCamera);
         // Actualizar la hora cada segundo
         setInterval(updateTimestamp, 1000);
+
+        function confirmarAccion() {
+    var respuesta = confirm("¿Quieres ir a la página de administración de datos?");
+    return respuesta;
+}
     </script>
 </body>
 </html>
