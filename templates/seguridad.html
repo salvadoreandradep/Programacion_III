@@ -246,7 +246,7 @@
             recordedChunks = [];
             const now = new Date();
             const timestamp = now.toLocaleString().replace(/[\s,/:]/g, '-'); // Reemplazar espacios, comas y barras con guiones
-            const fileName = `recorded-video_${timestamp}.webm`;
+            const fileName = `recorded-video_${timestamp}.mp4`;
 
             mediaRecorder = new MediaRecorder(currentStream);
 
@@ -257,7 +257,7 @@
             };
 
             mediaRecorder.onstop = function () {
-                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const blob = new Blob(recordedChunks, { type: 'video/mp4' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
