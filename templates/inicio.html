@@ -81,6 +81,65 @@ nav a:hover {
     .button:hover {
         background-color: #45a049;
     }
+
+
+    .popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.popup.show {
+  display: flex;
+  opacity: 1;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.popup.show .popup-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.custom-button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+}
+
     </style>
 </head>
 <body>
@@ -91,13 +150,20 @@ nav a:hover {
    
     <nav>
         <a href="inicio">Inicio 🏠</a>
-        <a href="login1" onclick="return confirmarAccion()">Administrar datos 🛠️</a>
+        <a href="#" id="administrarDatos">Administrar datos 🛠️</a>
         <a href="seguridad">Seguridad 🔒</a>
         <a href="actualizaciones">Actualizaciones 🔄</a>
     </nav>
     
     
-        
+    <div class="popup" id="popup">
+        <div class="popup-content">
+          <p>¿Quieres ir a la página de administración de datos?</p>
+          <button class="custom-button" onclick="irAPagina()">Sí</button>
+<button class="custom-button" onclick="cerrarPopup()">No</button>
+
+        </div>
+      </div>
    
 
     <div class="container">
@@ -128,10 +194,21 @@ nav a:hover {
 
 
     <script>
-        function confirmarAccion() {
-            var respuesta = confirm("¿Quieres ir a la página de administración de datos?");
-            return respuesta;
-        }
+       function irAPagina() {
+  document.getElementById('popup').classList.remove('show');
+  window.location.href = 'login1'; // Cambia 'login1' por la URL a la que quieres redirigir.
+}
+
+function cerrarPopup() {
+  document.getElementById('popup').classList.remove('show');
+}
+
+// Para mostrar el popup
+document.getElementById('administrarDatos').addEventListener('click', function() {
+  document.getElementById('popup').classList.add('show');
+});
+
+
         </script>
 </body>
 </html>
