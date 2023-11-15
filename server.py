@@ -585,5 +585,9 @@ def venta():
 def reportes():
     return render_template('reportes.html')
 
+@app.route('/actus')
+def actus():
+    return render_template('actus.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
