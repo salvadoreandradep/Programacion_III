@@ -205,9 +205,15 @@ nav a {
     transition: background-color 0.3s ease; /* Agrega una transición suave al color de fondo */
 }
 
-
+#formulario-container {
+            display: none;
+            margin-top: 20px;
+        }
     
-
+.button-container {
+            display: inline-block; /* Esto hace que los divs se muestren en línea */
+            margin-right: 10px; /* Espacio entre los botones */
+        }
 </style>
 </head>
 <body>
@@ -231,6 +237,23 @@ nav a {
             <a href="reporte">Reportes 📊</a>
             
     </nav>
+
+<center>
+    <div class="container">
+    
+        
+        <div class="button-container"><button class="button1" onclick="mostrarFormulario()">Agregar</button></div>
+    <div class="button-container"><button class="button1" onclick="ocultarFormulario()">Ocultar</button></div>
+
+
+       
+
+    </div>
+
+</center>
+
+
+<div id="formulario-container">
 <div class="container">
     <h1>Añade un Proveedores</h1>
     <form action="/guardar_proveedor" method="post">
@@ -245,6 +268,8 @@ nav a {
 
         <input type="submit" value="Guardar">
     </form>
+</div>
+
 </div>
 <center>
 <div class="container1">
@@ -281,6 +306,17 @@ nav a {
 
 
 <script>
+
+function mostrarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "block";
+        }
+
+        function ocultarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "none";
+        }
+        
     function filtrarTabla() {
         var input, filtro, tabla, filas, celdas, i, j;
         input = document.getElementById("busqueda");
