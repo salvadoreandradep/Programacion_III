@@ -410,11 +410,20 @@ def ventas():
     return render_template('ventas.html', productos=productos, clientes=clientes, ventas=ventas)
 
 
-@app.route('/eliminar_venta/<int:id_venta>', methods=['POST'])
+@app.route('/ventas/<int:id_venta>', methods=['POST'])
 def eliminar_venta(id_venta):
-    cursor.execute("DELETE FROM Ventas WHERE idVenta = %s", (id_venta,))
-    db.commit()
-    return redirect(url_for('ventas'))
+    try:
+        cursor.execute("DELETE FROM Ventas WHERE idVenta = %s", (id_venta,))
+        db.commit()
+        return redirect(url_for('ventas'))
+    except Exception as e:
+        db.rollback()  # Revierte la operación en caso de error
+        print(f"Error al eliminar la venta: {e}")
+        return redirect(url_for('ventas'))
+        # Puedes agregar más manejo de errores según sea necesario
+
+    
+    
 
 ## Reportes...................................................................................
 
