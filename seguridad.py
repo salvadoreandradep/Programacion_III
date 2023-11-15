@@ -1,6 +1,9 @@
 import cv2
 
+
 cap = cv2.VideoCapture(0)
+
+
 
 # Inicializa el detector de movimiento
 motion_detector = cv2.createBackgroundSubtractorMOG2()
