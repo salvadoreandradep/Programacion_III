@@ -186,6 +186,29 @@ tr:hover {
     }
         
 
+    #formulario-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: inline-block; /* Esto hace que los divs se muestren en línea */
+            margin-right: 10px; /* Espacio entre los botones */
+        }
+
+        nav a:hover {
+    background-color: #555; /* Cambia el color de fondo al pasar el ratón sobre los enlaces */
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    margin: 10px;
+    padding: 8px 12px; /* Añade un poco de relleno a los enlaces para mejorar la usabilidad */
+    border-radius: 5px; /* Agrega bordes redondeados para un aspecto más agradable */
+    transition: background-color 0.3s ease; /* Agrega una transición suave al color de fondo */
+}
+
     </style>
 </head>
 
@@ -200,17 +223,31 @@ tr:hover {
 
     <nav>
 
-        <a href="admin">Inicio</a>
-        <a href="producto">Productos</a>
-        <a href="proveedor">Proveedores</a>
-        <a href="cliente">Clientes</a>
-        <a href="empleados">Empleados</a>
-        <a href="entradas">Entradas</a>
-        <a href="salidas">Salidas</a> 
-        <a href="ventas">Ventas</a>
-        <a href="reporte">Reportes</a>
+        <a href="admin">Inicio 🏠</a>
+        <a href="producto">Productos 📦</a>
+        <a href="proveedor">Proveedores 🤝</a>
+        <a href="cliente">Clientes 👥</a>
+        <a href="empleados">Empleados 👩‍💼</a>
+        <a href="entradas">Entradas 📥</a>
+        <a href="salidas">Salidas 📤</a>
+        <a href="reporte">Reportes 📊</a>
         
     </nav>
+
+
+    <center>
+        <div class="container">
+    
+        
+            <div class="button-container"><button class="button1" onclick="mostrarFormulario()">Agregar</button></div>
+        <div class="button-container"><button class="button1" onclick="ocultarFormulario()">Ocultar</button></div>
+    
+    
+           
+    
+        </div>
+
+<div id="formulario-container">
 <div class="container">
     <form action="/guardar" method="post">
         <h1>Añadir de Productos</h1>
@@ -229,8 +266,11 @@ tr:hover {
         <input type="submit" value="Guardar">
     </form>
 
-    
 </div>
+</div>
+    </center>
+
+
 
 <center>
 <div class="container1">
@@ -267,6 +307,16 @@ tr:hover {
 
 
 <script>
+
+function mostrarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "block";
+        }
+
+        function ocultarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "none";
+        }
     document.getElementById('busqueda').addEventListener('input', function() {
         var filtro = this.value.toUpperCase();
         var tabla = document.getElementById('tabla-productos');
