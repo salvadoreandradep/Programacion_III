@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 from mysql.connector import Error
 
@@ -14,8 +14,7 @@ db = mysql.connector.connect(
 
 
 cursor = db.cursor()
-
-
+app.secret_key = 'tu_clave_secreta_aqui'
 
 ## Administracion de productos................................................................
 
@@ -43,16 +42,25 @@ def guardar():
 
     return redirect('/producto')
 
+from flask import abort, redirect, url_for
+
 @app.route('/eliminar/<int:producto_id>', methods=['POST'])
 def eliminar_producto(producto_id):
-    # Eliminar producto de la base de datos
-    delete_query = "DELETE FROM Productos WHERE idProducto = %s"
-    cursor.execute(delete_query, (producto_id,))
-    db.commit()
+    try:
+        # Eliminar producto de la base de datos
+        delete_query = "DELETE FROM Productos WHERE idProducto = %s"
+        cursor.execute(delete_query, (producto_id,))
+        db.commit()
 
-    return redirect('/producto')
+        flash('Producto eliminado con éxito', 'success')
+    except Exception as e:
+        
+        db.rollback()
+        flash(f'Error al eliminar el producto: {str(e)}', 'danger')
 
-
+    return redirect(url_for('producto'))
+        
+        
 
 @app.route('/modificar/<int:producto_id>', methods=['GET'])
 def modificar_producto(producto_id):
@@ -112,6 +120,9 @@ def eliminar_proveedor():
     db.commit()
 
     return redirect('/proveedor')
+
+
+
 
 @app.route('/modificar_proveedor', methods=['GET'])
 def modificar_proveedor():
