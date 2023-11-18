@@ -112,15 +112,19 @@ def guardar_proveedor():
 
 @app.route('/eliminar_proveedor', methods=['POST'])
 def eliminar_proveedor():
-    id_proveedor = request.form['id_proveedor']
+    try:
+        id_proveedor = request.form['id_proveedor']
 
-    cursor = db.cursor()
-    sql = "DELETE FROM Proveedores WHERE idProveedor = %s"
-    cursor.execute(sql, (id_proveedor,))
-    db.commit()
+        cursor = db.cursor()
+        sql = "DELETE FROM Proveedores WHERE idProveedor = %s"
+        cursor.execute(sql, (id_proveedor,))
+        db.commit()
 
-    return redirect('/proveedor')
+        return redirect('/proveedor')
+    except Exception as e:
 
+        print("Error")
+        return redirect('/proveedor')
 
 
 
