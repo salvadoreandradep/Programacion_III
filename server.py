@@ -16,7 +16,7 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 app.secret_key = 'tu_clave_secreta_aqui'
 
-## Administracion de productos................................................................
+## Administracion de productos............................................................................
 
 @app.route('/producto')
 def mostrar_productos():
@@ -27,7 +27,7 @@ def mostrar_productos():
     # Renderizar la plantilla con la lista de productos
     return render_template('productos.html', productos=productos)
 
-
+##.........................................................................................................
 @app.route('/guardar', methods=['POST'])
 def guardar():
     nombre = request.form['nombre']
@@ -42,7 +42,7 @@ def guardar():
 
     return redirect('/producto')
 
-from flask import abort, redirect, url_for
+
 
 @app.route('/eliminar/<int:producto_id>', methods=['POST'])
 def eliminar_producto(producto_id):
