@@ -258,13 +258,13 @@ nav a {
    
     <form action="/guardar_empleado" method="post">
         <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" required><br>
+        <input type="text" name="nombre" required pattern=".*\S+.*"><br>
 
         <label for="cargo">Cargo:</label>
-        <input type="text" name="cargo" required><br>
+        <input type="text" name="cargo" required pattern=".*\S+.*"><br>
 
         <label for="salario">Salario:</label>
-        <input type="number" name="salario" step="0.01" required><br>
+        <input type="number" name="salario" step="0.01" required pattern=".*\S+.*"><br>
 
         <label for="fecha_contratacion">Fecha de Contratación:</label>
         <input type="date" name="fecha_contratacion" required><br>

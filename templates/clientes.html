@@ -262,13 +262,13 @@ nav a {
             <h1>Formulario de Cliente</h1>
             <form action="/guardar_cliente" method="post">
                 <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" required><br>
+                <input type="text" name="nombre" required pattern=".*\S+.*"><br>
 
                 <label for="direccion">Dirección:</label>
-                <input type="text" name="direccion" required><br>
+                <input type="text" name="direccion" required pattern=".*\S+.*"><br>
 
                 <label for="telefono">Teléfono:</label>
-                <input type="text" name="telefono" required><br>
+                <input type="text" name="telefono" required pattern=".*\S+.*"><br>
 
                 <input type="submit" value="Guardar">
             </form>
