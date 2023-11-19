@@ -74,17 +74,25 @@ def modificar_producto(producto_id):
 
 @app.route('/actualizar/<int:producto_id>', methods=['POST'])
 def actualizar_producto(producto_id):
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    stock = request.form['stock']
+    try:
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        precio = request.form['precio']
+        stock = request.form['stock']
 
-    # Actualizar producto en la base de datos
-    update_query = "UPDATE Productos SET nombre=%s, descripcion=%s, precio=%s, stock=%s WHERE idProducto=%s"
-    cursor.execute(update_query, (nombre, descripcion, precio, stock, producto_id))
-    db.commit()
+        # Asegúrate de validar y manejar adecuadamente los datos antes de ejecutar la consulta
 
-    return redirect('/producto')
+        # Actualizar producto en la base de datos
+        update_query = "UPDATE Productos SET nombre=%s, descripcion=%s, precio=%s, stock=%s WHERE idProducto=%s"
+        cursor.execute(update_query, (nombre, descripcion, precio, stock, producto_id))
+        db.commit()
+
+        return redirect('/producto')
+
+    except Exception as e:
+        # Manejar la excepción de manera adecuada, por ejemplo, podrías imprimir el error
+        print(f"Error: {str(e)}")      
+        return redirect('/producto')
 
 ##Administracion de proveedor.......................................................................
 @app.route('/proveedor')
@@ -141,17 +149,26 @@ def modificar_proveedor():
 
 @app.route('/guardar_modificacion', methods=['POST'])
 def guardar_modificacion():
-    id_proveedor = request.form['id_proveedor']
-    nombre = request.form['nombre']
-    direccion = request.form['direccion']
-    telefono = request.form['telefono']
 
-    cursor = db.cursor()
-    sql = "UPDATE Proveedores SET nombre=%s, direccion=%s, telefono=%s WHERE idProveedor=%s"
-    cursor.execute(sql, (nombre, direccion, telefono, id_proveedor))
-    db.commit()
+    try:
+        id_proveedor = request.form['id_proveedor']
+        nombre = request.form['nombre']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
 
-    return redirect('/proveedor')
+        cursor = db.cursor()
+        sql = "UPDATE Proveedores SET nombre=%s, direccion=%s, telefono=%s WHERE idProveedor=%s"
+        cursor.execute(sql, (nombre, direccion, telefono, id_proveedor))
+        db.commit()
+
+        return redirect('/proveedor')
+
+    except Exception as e:
+        # Manejar la excepción de manera adecuada, por ejemplo, podrías imprimir el error
+        print(f"Error: {str(e)}")
+        # También puedes redirigir a una página de error o mostrar un mensaje al usuario
+        return redirect('/proveedor') 
+     
 
 ## Administracion de Cliente................................................................
 
@@ -179,13 +196,19 @@ def guardar_cliente():
     
 @app.route('/eliminar_cliente', methods=['POST'])
 def eliminar_cliente():
-    if request.method == 'POST':
-        id_cliente = request.form['id_cliente']
-        cursor.execute("DELETE FROM Clientes WHERE idCliente = %s", (id_cliente,))
-        db.commit()
 
+    try:
+        if request.method == 'POST':
+            id_cliente = request.form['id_cliente']
+            cursor.execute("DELETE FROM Clientes WHERE idCliente = %s", (id_cliente,))
+            db.commit()
         return redirect('/cliente')
-    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return redirect('/cliente')
+
+
+
 
 @app.route('/modificar_cliente', methods=['GET'])
 def modificar_cliente():
@@ -201,20 +224,23 @@ def modificar_cliente():
 
 @app.route('/guardar_modificacionC', methods=['POST'])
 def guardar_modificacionC():
-    if request.method == 'POST':
-        id_cliente = request.form['id_cliente']
-        nombre = request.form['nombre']
-        direccion = request.form['direccion']
-        telefono = request.form['telefono']
 
-        # Actualiza la información del cliente en la base de datos
-        cursor.execute("UPDATE Clientes SET nombre=%s, direccion=%s, telefono=%s WHERE idCliente=%s",
-                       (nombre, direccion, telefono, id_cliente))
-        db.commit()
+    try:
+        if request.method == 'POST':
+            id_cliente = request.form['id_cliente']
+            nombre = request.form['nombre']
+            direccion = request.form['direccion']
+            telefono = request.form['telefono']
 
+            # Actualiza la información del cliente en la base de datos
+            cursor.execute("UPDATE Clientes SET nombre=%s, direccion=%s, telefono=%s WHERE idCliente=%s",
+                        (nombre, direccion, telefono, id_cliente))
+            db.commit()
+
+            return redirect('cliente')
+    except Exception as e:
+        print(f"Error: {str(e)}")
         return redirect('cliente')
-   
-
 ## Administracion de empleados..............................................................  
 
 @app.route('/empleados')
@@ -243,13 +269,21 @@ def guardar_empleado():
 
 @app.route('/eliminar_empleado', methods=['POST'])
 def eliminar_empleado():
-    id_empleado = request.form['id_empleado']
+    try:
+            id_empleado = request.form['id_empleado']
 
-    # Realiza la eliminación en la base de datos
-    cursor.execute("DELETE FROM Empleados WHERE idEmpleado = %s", (id_empleado,))
-    db.commit()
+            # Realiza la eliminación en la base de datos
+            cursor.execute("DELETE FROM Empleados WHERE idEmpleado = %s", (id_empleado,))
+            db.commit()
 
-    return redirect(url_for('empleados'))
+            return redirect(url_for('empleados'))
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return redirect(url_for('empleados'))
+
+
+
+
 
 @app.route('/editar_empleado', methods=['GET'])
 def editar_empleado():
@@ -264,18 +298,26 @@ def editar_empleado():
 
 @app.route('/guardar_edicion', methods=['POST'])
 def guardar_edicion():
-    id_empleado = request.form['id_empleado']
-    nombre = request.form['nombre']
-    cargo = request.form['cargo']
-    salario = request.form['salario']
-    fecha_contratacion = request.form['fecha_contratacion']
+        try:
+            id_empleado = request.form['id_empleado']
+            nombre = request.form['nombre']
+            cargo = request.form['cargo']
+            salario = request.form['salario']
+            fecha_contratacion = request.form['fecha_contratacion']
 
-    # Actualiza los datos en la base de datos
-    cursor.execute("UPDATE Empleados SET nombre = %s, cargo = %s, salario = %s, fechaContratacion = %s WHERE idEmpleado = %s",
-                   (nombre, cargo, salario, fecha_contratacion, id_empleado))
-    db.commit()
+            # Actualiza los datos en la base de datos
+            cursor.execute("UPDATE Empleados SET nombre = %s, cargo = %s, salario = %s, fechaContratacion = %s WHERE idEmpleado = %s",
+                        (nombre, cargo, salario, fecha_contratacion, id_empleado))
+            db.commit()
 
-    return redirect(url_for('empleados'))
+            return redirect(url_for('empleados'))
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            return redirect(url_for('empleados'))
+
+
+
+
 
 
 ## Administracion de entradas...............................................................
@@ -318,14 +360,17 @@ def guardar_entrada():
 
 @app.route("/eliminar_entrada", methods=["POST"])
 def eliminar_entrada():
-    # Obtener el ID de la entrada a eliminar
-    id_entrada = request.form.get("id_entrada")
+    try:
+            id_entrada = request.form.get("id_entrada")
 
-    # Eliminar la entrada de la base de datos
-    cursor.execute("DELETE FROM Entradas WHERE idEntrada = %s", (id_entrada,))
-    db.commit()
+            # Eliminar la entrada de la base de datos
+            cursor.execute("DELETE FROM Entradas WHERE idEntrada = %s", (id_entrada,))
+            db.commit()
 
-    return redirect(url_for('entradas'))
+            return redirect(url_for('entradas'))
+    except Exception as e:
+            print(f"Error: {str(e)}")
+            return redirect(url_for('entradas'))
 
 
 
