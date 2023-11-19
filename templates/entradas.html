@@ -223,6 +223,16 @@ nav a {
     border-radius: 5px; /* Agrega bordes redondeados para un aspecto más agradable */
     transition: background-color 0.3s ease; /* Agrega una transición suave al color de fondo */
 }
+
+#formulario-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: inline-block; /* Esto hace que los divs se muestren en línea */
+            margin-right: 10px; /* Espacio entre los botones */
+        }
         
 
     </style>
@@ -252,6 +262,16 @@ nav a {
         
     </nav>
 
+
+    <center>
+        <div class="container">
+                <div class="button-container"><button class="button1" onclick="mostrarFormulario()">Agregar</button></div>
+                <div class="button-container"><button class="button1" onclick="ocultarFormulario()">Ocultar</button></div>
+        </div>
+    </center>
+
+    <div id="formulario-container">
+
     <div class="container">
         
         <form action="/guardar_entrada" method="post">
@@ -279,6 +299,8 @@ nav a {
         </form>
 
     </div>
+
+</div>
 <center>
 <div class="container1" >
     <input type="text" id="busqueda" placeholder="Buscar Cliente..." oninput="filtrarTabla()">
@@ -332,6 +354,16 @@ nav a {
             }
         }
     }
+
+    function mostrarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "block";
+        }
+
+        function ocultarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "none";
+        }
 </script>
 </body>
 </html>

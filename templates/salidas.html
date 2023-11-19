@@ -226,6 +226,16 @@ nav a {
 }
         
 
+#formulario-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: inline-block; /* Esto hace que los divs se muestren en línea */
+            margin-right: 10px; /* Espacio entre los botones */
+        }
+
     </style>
 </head>
 
@@ -251,6 +261,16 @@ nav a {
             <a href="reporte">Reportes 📊</a>
         
     </nav>
+
+    <center>
+        <div class="container">
+                <div class="button-container"><button class="button1" onclick="mostrarFormulario()">Agregar</button></div>
+                <div class="button-container"><button class="button1" onclick="ocultarFormulario()">Ocultar</button></div>
+        </div>
+    </center>
+
+    <div id="formulario-container">
+
 <div class="container">
     <form action="/guardar_salida" method="post">
         <label for="id_producto">Producto:</label>
@@ -280,7 +300,7 @@ nav a {
         <input type="submit" value="Guardar">
     </form>
 </div>
-
+</div>
 <center>
     <div class="container1">
 
@@ -339,6 +359,17 @@ nav a {
             }
         }
     }
+
+
+    function mostrarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "block";
+        }
+
+        function ocultarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "none";
+        }
 </script>
 </body>
 </html>

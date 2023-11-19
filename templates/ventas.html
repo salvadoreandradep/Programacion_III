@@ -220,7 +220,15 @@ tr:hover {
 
 
 
-        
+        #formulario-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: inline-block; /* Esto hace que los divs se muestren en línea */
+            margin-right: 10px; /* Espacio entre los botones */
+        }
 
     </style>
 </head>
@@ -249,6 +257,15 @@ tr:hover {
         
     </nav>
 
+
+    <center>
+        <div class="container">
+                <div class="button-container"><button class="button1" onclick="mostrarFormulario()">Agregar</button></div>
+                <div class="button-container"><button class="button1" onclick="ocultarFormulario()">Ocultar</button></div>
+        </div>
+    </center>
+
+    <div id="formulario-container"> 
 <div class="container">
     <form method="post">
         <label for="id_producto">Producto:</label>
@@ -277,41 +294,61 @@ tr:hover {
 
         <input type="submit" value="Guardar">
     </form>
+
+</div>
+
+</div>
+<center>
+    <div class="container1">
+        <table border="1">
+            <tr>
+                <th>ID Venta</th>
+                <th>ID Producto</th>
+                <th>ID Cliente</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Fecha de Venta</th>
+                <th>Acciones</th>
+            </tr>
+            {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta[0] }}</td>
+                    <td>{{ venta[1] }}</td>
+                    <td>{{ venta[2] }}</td>
+                    <td>{{ venta[3] }}</td>
+                    <td>{{ venta[4] }}</td>
+                    <td>{{ venta[5] }}</td>
+                    <td>
+                        <form action="/ventas" method="post" style="display: inline;">
+                            <input type="hidden" name="id_venta" value="{{ venta[0] }}">
+                            <button type="submit" class="eliminar-button">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    
+    </div>
+    </center>
+
+    
+    <script>
+
+
+           function mostrarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "block";
+        }
+
+        function ocultarFormulario() {
+            var formularioContainer = document.getElementById("formulario-container");
+            formularioContainer.style.display = "none";
+        }
+    </script>
 </body>
 </html>
 
-</div>
 
 
-<center>
-<div class="container1">
-    <table border="1">
-        <tr>
-            <th>ID Venta</th>
-            <th>ID Producto</th>
-            <th>ID Cliente</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th>Fecha de Venta</th>
-            <th>Acciones</th>
-        </tr>
-        {% for venta in ventas %}
-            <tr>
-                <td>{{ venta[0] }}</td>
-                <td>{{ venta[1] }}</td>
-                <td>{{ venta[2] }}</td>
-                <td>{{ venta[3] }}</td>
-                <td>{{ venta[4] }}</td>
-                <td>{{ venta[5] }}</td>
-                <td>
-                    <form action="/ventas" method="post" style="display: inline;">
-                        <input type="hidden" name="id_venta" value="{{ venta[0] }}">
-                        <button type="submit" class="eliminar-button">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
 
-</div>
-</center>
+
