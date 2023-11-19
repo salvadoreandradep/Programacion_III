@@ -218,7 +218,26 @@ tr:hover {
             display: inline-block; /* Esto hace que los divs se muestren en línea */
             margin-right: 10px; /* Espacio entre los botones */
         }
-        
+
+        #busqueda {
+    padding: 12px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    font-size: 18px;
+    width: 700px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#busqueda:focus {
+    outline: none;
+    border-color: #444;
+    box-shadow: 0 2px 8px #333;
+}
+
+::placeholder {
+    color: #aaa;
+}
 
     </style>
 </head>
