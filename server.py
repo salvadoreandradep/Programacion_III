@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 from mysql.connector import Error
+import hashlib
 
 
 app = Flask(__name__, template_folder='templates')
@@ -561,14 +562,20 @@ def eliminar_reporte(id_reporte):
 def login():
     username = request.form['username']
     password = request.form['password']
+
+  
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contrasena = %s", (username, password))
+    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contrasena = %s", (username, hashed_password))
     user = cursor.fetchone()
+
     if user:
         return redirect(url_for('Inicio'))
     else:
-       error = "Contraseña incorrecta. Inténtalo de nuevo."
-    return render_template('login.html', error=error)
+        error = "Contraseña incorrecta. Inténtalo de nuevo."
+
+    return render_template('login1.html', error=error)
 
 
 
@@ -576,13 +583,19 @@ def login():
 def Relogin():
     username = request.form['username']
     password = request.form['password']
+
+  
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contrasena = %s", (username, password))
+    cursor.execute("SELECT * FROM usuarios WHERE nombreUsuario = %s AND contrasena = %s", (username, hashed_password))
     user = cursor.fetchone()
+
     if user:
         return redirect(url_for('admin'))
     else:
-       error = "Contraseña incorrecta. Inténtalo de nuevo."
+        error = "Contraseña incorrecta. Inténtalo de nuevo."
+
     return render_template('login1.html', error=error)
 
 
