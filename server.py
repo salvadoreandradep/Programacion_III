@@ -475,11 +475,11 @@ def eliminar_venta(id_venta):
     try:
         cursor.execute("DELETE FROM Ventas WHERE idVenta = %s", (id_venta,))
         db.commit()
-        return redirect(url_for('ventas'))
+        return redirect(url_for('/ventas'))
     except Exception as e:
         db.rollback()  # Revierte la operación en caso de error
         print(f"Error al eliminar la venta: {e}")
-        return redirect(url_for('ventas'))
+        return redirect(url_for('/ventas'))
         # Puedes agregar más manejo de errores según sea necesario
 
     
