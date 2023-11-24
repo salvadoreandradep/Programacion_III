@@ -140,6 +140,29 @@ nav a:hover {
   border-radius: 8px;
 }
 
+.conta {
+    text-align: center;
+}
+
+form {
+    margin-top: 20px;
+}
+
+button {
+    background-color: #444;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: red;
+}
+
     </style>
 </head>
 <body>
@@ -153,6 +176,13 @@ nav a:hover {
         <a href="#" id="administrarDatos">Administrar datos 🛠️</a>
         <a href="seguridad">Seguridad 🔒</a>
         <a href="actus">Actualizaciones 🔄</a>
+
+        <div class="conta">
+          <form action="/logout" method="post" id="logoutForm">
+              <button type="submit" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?')">Cerrar sesión</button>
+          </form>
+      </div>
+      
     </nav>
     
     

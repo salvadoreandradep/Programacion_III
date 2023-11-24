@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import mysql.connector
 from mysql.connector import Error
 import hashlib
 
 
 app = Flask(__name__, template_folder='templates')
+app.secret_key = 'admin2023'
 
 db = mysql.connector.connect(
   host="localhost",
@@ -578,11 +579,17 @@ def login():
     user = cursor.fetchone()
 
     if user:
+
+        session['username'] = username
         return redirect(url_for('Inicio'))
     else:
         error = "Contraseña incorrecta. Inténtalo de nuevo."
 
     return render_template('login1.html', error=error)
+
+
+
+
 
 
 
@@ -610,13 +617,27 @@ def Relogin():
 
 
 
+@app.before_request
+def before_request():
+    if 'username' not in session and request.endpoint not in ['formulario', 'login']:
+        return redirect(url_for('formulario'))
 
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    # Eliminar la sesión de usuario
+    session.pop('username', None)
+    # Redirigir al formulario de inicio de sesión
+    return redirect(url_for('formulario'))
 
 ## Area Inicial........................................................
 
 @app.route('/')
 def formulario():
+    if 'username' in session:
+        return redirect(url_for('Inicio'))
     return render_template('login.html')
+    
 
 
 @app.route('/inicio')
