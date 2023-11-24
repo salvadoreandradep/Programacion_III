@@ -15,7 +15,7 @@ body {
 
 .container {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 200px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
@@ -23,6 +23,10 @@ body {
     text-align: center;
     opacity: 0; /* Inicialmente transparente */
     animation: fadeIn 1s ease-in-out forwards; /* Animación de desvanecimiento */
+}
+.container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
 }
 
 @keyframes fadeIn {
