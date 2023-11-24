@@ -242,6 +242,7 @@ def guardar_modificacionC():
     except Exception as e:
         print(f"Error: {str(e)}")
         return redirect('cliente')
+    
 ## Administracion de empleados..............................................................  
 
 @app.route('/empleados')
@@ -424,6 +425,9 @@ def guardar_salida():
         return redirect(url_for('salidas'))
 
 
+
+
+
 @app.route('/salida', methods=['POST'])
 def eliminar_salida():
     
@@ -592,7 +596,7 @@ def Relogin():
     user = cursor.fetchone()
 
     if user:
-        return redirect(url_for('admin'))
+        return redirect(url_for('Inicio'))
     else:
         error = "Contraseña incorrecta. Inténtalo de nuevo."
 
