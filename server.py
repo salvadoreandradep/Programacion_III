@@ -596,7 +596,7 @@ def Relogin():
     user = cursor.fetchone()
 
     if user:
-        return redirect(url_for('Inicio'))
+        return redirect(url_for('admin'))
     else:
         error = "Contraseña incorrecta. Inténtalo de nuevo."
 
