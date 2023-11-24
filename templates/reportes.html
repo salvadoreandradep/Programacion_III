@@ -170,7 +170,7 @@ th {
 
 /* Añade un estilo alternativo a las filas para mejorar la legibilidad */
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #fff;
 }
 
 /* Agrega un efecto de transición a las filas al pasar el ratón sobre ellas */
@@ -192,6 +192,11 @@ tr:hover {
     button:hover {
         background-color: #d32f2f;
     }
+
+    .button-container {
+            display: inline-block; /* Esto hace que los divs se muestren en línea */
+            margin-right: 10px; /* Espacio entre los botones */
+        }
        
     input[type="text"] {
             padding: 8px;
@@ -323,12 +328,15 @@ tr:hover {
                     <td>{{ reporte[3] }}</td>
                     <td>{{ reporte[4] }}</td> 
                     <td>
+
                         <form action="{{ url_for('eliminar_reporte', id_reporte=reporte[0]) }}" method="post" style="display: inline;">
                             <button type="submit" class="eliminar-button">Eliminar</button>
                         </form>
-                        <form action="{{ url_for('modificar_reporte', id_reporte=reporte[0]) }}" method="get" style="display: inline;">
+                
+                       <form action="{{ url_for('modificar_reporte', id_reporte=reporte[0]) }}" method="get" style="display: inline;">
                             <button type="submit" class="modificar-button">Modificar</button>
                         </form>
+                    
                     </td>
                 </tr>
             {% endfor %}
