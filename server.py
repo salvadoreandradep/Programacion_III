@@ -585,7 +585,7 @@ def login():
     else:
         error = "Contraseña incorrecta. Inténtalo de nuevo."
 
-    return render_template('login1.html', error=error)
+    return render_template('login.html', error=error)
 
 
 

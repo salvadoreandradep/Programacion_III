@@ -338,6 +338,11 @@ nav a {
 </center>
 
     
+
+
+
+
+
 <script>
 
 
@@ -375,6 +380,22 @@ function mostrarFormulario() {
             }
         }
     });
+
+
+    window.addEventListener('beforeunload', function (e) {
+            // Verifica si hay datos en el formulario
+            var formInputs = document.querySelectorAll('form input');
+            var formChanged = Array.from(formInputs).some(function (input) {
+                return input.value !== '';
+            });
+
+            if (formChanged) {
+                // Muestra un mensaje de advertencia
+                var confirmationMessage = 'Todavía tienes cambios sin guardar. ¿Estás seguro de que quieres salir?';
+                (e || window.event).returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
+        });
 </script>
 </body>
 </html>
