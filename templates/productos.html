@@ -116,6 +116,7 @@
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    
     box-sizing: border-box; /* Asegura que el padding y el borde no aumenten el ancho total del contenedor */
 }
 
@@ -135,6 +136,7 @@
 .container1 a {
     color: #007bff;
     text-decoration: underline;
+
 }
 
 .container1 a:hover {
@@ -242,8 +244,8 @@ nav a {
 <body>
 
     <header>
-        <h1>UI Freund System - v1.1</h1>
-        <h1> Administracion de Productos </h1>
+        <h1>UI Freund System - v0.1.5b</h1>
+        <h1> Administración de Productos </h1>
        
     </header>
 
@@ -382,20 +384,7 @@ function mostrarFormulario() {
     });
 
 
-    window.addEventListener('beforeunload', function (e) {
-            // Verifica si hay datos en el formulario
-            var formInputs = document.querySelectorAll('form input');
-            var formChanged = Array.from(formInputs).some(function (input) {
-                return input.value !== '';
-            });
 
-            if (formChanged) {
-                // Muestra un mensaje de advertencia
-                var confirmationMessage = 'Todavía tienes cambios sin guardar. ¿Estás seguro de que quieres salir?';
-                (e || window.event).returnValue = confirmationMessage;
-                return confirmationMessage;
-            }
-        });
 </script>
 </body>
 </html>

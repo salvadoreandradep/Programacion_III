@@ -57,10 +57,37 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+        nav {
+    background-color: #444;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Estilos para los enlaces de navegación */
+nav a {
+    text-decoration: none;
+    color: #fff;
+    margin: 10px;
+    padding: 8px 12px; /* Añade un poco de relleno a los enlaces para mejorar la usabilidad */
+    border-radius: 5px; /* Agrega bordes redondeados para un aspecto más agradable */
+    transition: background-color 0.3s ease; /* Agrega una transición suave al color de fondo */
+}
+
+/* Estilos al pasar el ratón sobre los enlaces de navegación */
+nav a:hover {
+    background-color: #555; /* Cambia el color de fondo al pasar el ratón sobre los enlaces */
+}
+        
     </style>
 </head>
 <body>
-    
+
+  
+
+      
+   
     <form action="/guardar_modificacionC" method="post">
         <h1>Modificar Cliente</h1>
         <input type="hidden" name="id_cliente" value="{{ cliente[0] }}">
@@ -76,5 +103,7 @@
 
         <input type="submit" value="Actualizar">
     </form>
+
+ 
 </body>
 </html>
